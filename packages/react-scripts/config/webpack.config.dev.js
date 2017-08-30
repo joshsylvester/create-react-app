@@ -175,8 +175,8 @@ module.exports = {
               presets: [require.resolve('babel-preset-react-app')],
               plugins: [
                 ['module-resolver', {
-                  root: ['./src']
-                }]
+                  root: ['./src'],
+                }],
               ],
               // @remove-on-eject-end
               // This is a feature of `babel-loader` for webpack (not Babel itself).
@@ -200,7 +200,12 @@ module.exports = {
                   importLoaders: 1,
                 },
               },
-              require.resolve('sass-loader'),
+              {
+                loader: require.resolve('sass-loader'),
+                options: {
+                  includePaths: ['bower_components'],
+                },
+              },
               {
                 loader: require.resolve('postcss-loader'),
                 options: {
