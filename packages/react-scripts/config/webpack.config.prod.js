@@ -215,13 +215,6 @@ module.exports = {
                       },
                     },
                     {
-                      loader: require.resolve('sass-loader'),
-                      options: {
-                        sourceMap: shouldUseSourceMap,
-                        includePaths: ['bower_components'],
-                      },
-                    },
-                    {
                       loader: require.resolve('postcss-loader'),
                       options: {
                         // Necessary for external CSS imports to work
@@ -239,6 +232,13 @@ module.exports = {
                             flexbox: 'no-2009',
                           }),
                         ],
+                      },
+                    },
+                    {
+                      loader: require.resolve('sass-loader'),
+                      options: {
+                        sourceMap: shouldUseSourceMap,
+                        includePaths: ['bower_components'],
                       },
                     },
                   ],
