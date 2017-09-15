@@ -27,7 +27,7 @@ export default class Hello extends React.PureComponent {
       <div className="Hello">
         <form onSubmit={this.onSubmitForm}>
           <input
-            placeholder="Hello"
+            placeholder="Enter your name"
             onChange={this.onChangeName}
             value={this.state.name}
             />
