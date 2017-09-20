@@ -1,6 +1,6 @@
 {
-  "name": "svmx-react-scripts",
-  "version": "1.1.22",
+  "name": "@svmx/react-scripts",
+  "version": "1.1.27",
   "description": "ServiceMax Configuration and scripts for Create React App.",
   "repository": "ServiceMax-Engineering/create-react-app",
   "license": "BSD-3-Clause",
@@ -70,13 +70,7 @@
     "webpack-manifest-plugin": "1.2.1",
     "whatwg-fetch": "2.0.3"
   },
-  "devDependencies": {
-    "eslint": "^4.7.1",
-    "eslint-config-airbnb": "^15.1.0",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jsx-a11y": "^5.1.1",
-    "eslint-plugin-react": "^7.3.0"
-  },
+  "devDependencies": {},
   "optionalDependencies": {
     "fsevents": "1.1.2"
   }
