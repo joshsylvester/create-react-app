@@ -23,7 +23,7 @@ export default class App extends React.PureComponent {
           <h2>{greeting || 'Welcome to ServiceMax!'}</h2>
         </div>
         <p className="App-intro">
-          To get started, edit <code>src/components/app/App.js</code> and save to reload.
+          To get started, edit <code>src/components/App/App.js</code> and save to reload.
         </p>
         <div className="App-hello">
           <Hello onSubmit={onSubmitHello} />
