@@ -1,6 +1,6 @@
 {
   "name": "@svmx/react-scripts",
-  "version": "1.1.29",
+  "version": "1.1.30",
   "description": "ServiceMax Configuration and scripts for Create React App.",
   "repository": "ServiceMax-Engineering/create-react-app",
   "license": "BSD-3-Clause",
@@ -55,7 +55,7 @@
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.6",
-    "prettier": "1.4.4",
+    "prettier": "1.7.0",
     "prettier-eslint-cli": "4.1.1",
     "promise": "8.0.1",
     "react-dev-utils": "^4.0.0",
