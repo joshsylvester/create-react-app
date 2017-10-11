@@ -194,7 +194,7 @@ module.exports = {
             test: [/\.css$/, /\.scss$/],
             use: [
               {
-                loader: require.resolve('style-loader')
+                loader: require.resolve('style-loader'),
               },
               {
                 loader: require.resolve('css-loader'),
