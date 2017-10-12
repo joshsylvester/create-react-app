@@ -1,51 +1,71 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import './App.scss';
-
 import { Switch, Route } from 'react-router';
-import { Link, BrowserRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 import * as Components from './ComponentsList';
 
-const components = [];
+let components = [];
+
+/**
+ * Each component takes the structure of
+ * { name: String, comp: ReactElement, path: '/{name}' }
+ *
+ *  @class Component
+ */
+class Component {
+  constructor({ name = '', comp = null }) {
+    this.name = name;
+    this.comp = comp;
+    this.path = '/' + name;
+  }
+}
 
 Object.keys(Components).forEach(val => {
-  if (Components[val]) {
-    components.push({
-      name: val,
-      comp: Components[val],
-      path: `/${val}`,
-    });
-  }
+  if (Components[val])
+    components.push(
+      new Component({
+        name: val,
+        comp: Components[val],
+      })
+    );
 });
 
 const ComponentsListHeader = () => (
   <div className="component-list-header">Components List</div>
 );
 
-const ComponentsList = () => (
-  <div className="components-list">
-    <ComponentsListHeader />
-    <ul>
-      {components.map(comp => (
-        <li key={comp.name}>
-          {/* Path is the same as component name + / */}
-          <Link to={comp.path}>{comp.name}</Link>
-        </li>
-      ))}
-    </ul>
-    <div className="notice">
-      run <b>npm run tree</b> to update component list
-    </div>
+const ComponentsList = ({ components }) => (
+  <ul div="components-list">
+    {components.map(comp => (
+      <li key={comp.name}>
+        {/* Path is the same as component name + / */}
+        <Link to={comp.path}>{comp.name}</Link>
+      </li>
+    ))}
+  </ul>
+);
+
+const Notice = () => (
+  <div className="notice">
+    run <b>npm run tree</b> to update component list
   </div>
 );
 
 export default class App extends React.PureComponent {
   static propTypes = {
-    onSubmitHello: PropTypes.func.isRequired,
-    greeting: PropTypes.string,
+    componentsList: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        path: PropTypes.string.isRequired,
+        comp: PropTypes.node.isRequired,
+      })
+    ),
   };
-
   render() {
+    const appComponents = this.props.componentsList || components;
     return (
       <BrowserRouter>
         <Switch>
@@ -54,11 +74,13 @@ export default class App extends React.PureComponent {
             path="/"
             render={() => (
               <div className="route-container">
-                <ComponentsList />
+                <ComponentsListHeader />
+                <ComponentsList components={appComponents} />
+                <Notice />
               </div>
             )}
           />
-          {components.map(comp => (
+          {appComponents.map(comp => (
             <Route
               key={comp.path}
               exact
@@ -75,3 +97,4 @@ export default class App extends React.PureComponent {
     );
   }
 }
+export { ComponentsList, ComponentsListHeader, Notice, Component };

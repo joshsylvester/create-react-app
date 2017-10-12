@@ -14,16 +14,16 @@ export default class AppHello extends React.PureComponent {
     const { greeting, onSubmitHello } = this.props;
 
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+      <div className="AppHello">
+        <div className="AppHello-header">
+          <img src={logo} className="AppHello-logo" alt="logo" />
           <h2>{greeting || 'Welcome to ServiceMax!'}</h2>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/components/app/App.js</code> and save
-          to reload.
+        <p className="AppHello-intro">
+          To get started, edit <code>src/components/app/AppHello.js</code> and
+          save to reload.
         </p>
-        <div className="App-hello">
+        <div className="AppHello-hello">
           <Hello onSubmit={onSubmitHello} />
         </div>
       </div>

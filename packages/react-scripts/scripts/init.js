@@ -46,7 +46,7 @@ module.exports = function(
     eject: 'react-scripts eject',
     lint: 'NODE_ENV=development eslint js test *.js',
     prettier: 'NODE_ENV=development prettier-eslint --write "src/**/*.js"',
-    tree: 'node ./node_modules/@svmx/react-scripts/scripts/buildcomplist.js',
+    tree: 'react-scripts tree',
   };
 
   fs.writeFileSync(
