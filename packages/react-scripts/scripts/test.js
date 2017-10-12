@@ -29,8 +29,10 @@ const jest = require('jest');
 const argv = process.argv.slice(2);
 
 // Watch unless on CI or in coverage mode
+// --watch changed to --watchAll due to open jest bug.
+// see: https://github.com/facebook/jest/issues/4419
 if (!process.env.CI && argv.indexOf('--coverage') < 0) {
-  argv.push('--watch');
+  argv.push('--watchAll');
 }
 
 // @remove-on-eject-begin
