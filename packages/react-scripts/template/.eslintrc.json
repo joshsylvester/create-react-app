@@ -3,7 +3,6 @@
     "browser": true
   },
   "extends": [
-    "react-app",
     "airbnb"
   ],
   "parser": "babel-eslint",
