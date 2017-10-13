@@ -45,7 +45,8 @@ module.exports = function(
     test: 'react-scripts test --env=jsdom',
     eject: 'react-scripts eject',
     lint: 'NODE_ENV=development eslint js test *.js',
-    prettier: 'NODE_ENV=development prettier-eslint --write \"src/**/*.js\"',
+    prettier: 'NODE_ENV=development prettier-eslint --write "src/**/*.js"',
+    tree: 'react-scripts tree',
   };
 
   fs.writeFileSync(

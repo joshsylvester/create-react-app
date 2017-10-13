@@ -1,34 +1,47 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import logo from './logo.svg';
-import Hello from 'components/Hello';
 import './App.scss';
+import { Switch, Route } from 'react-router';
+import { BrowserRouter } from 'react-router-dom';
+import ComponentsList from './ComponentsList';
 
-export default class App extends React.PureComponent {
-  static propTypes = {
-    onSubmitHello: PropTypes.func.isRequired,
-    greeting: PropTypes.string,
-  }
+const appComponents = ComponentsList.components;
+const ComponentsListHeader = () => (
+  <div className="component-list-header">Components List</div>
+);
+const Notice = () => (
+  <div className="notice">
+    run <b>npm run tree</b> to update component list
+  </div>
+);
 
-  render() {
-    const {
-      greeting,
-      onSubmitHello,
-    } = this.props;
+const App = props => (
+  <BrowserRouter>
+    <Switch>
+      <Route
+        exact
+        path="/"
+        render={() => (
+          <div className="route-container">
+            <ComponentsListHeader />
+            <ComponentsList />
+            <Notice />
+          </div>
+        )}
+      />
+      {appComponents.map(comp => (
+        <Route
+          key={comp.path}
+          exact
+          path={comp.path}
+          render={() => (
+            <div className="route-container">
+              {React.createElement(comp.component, props)}
+            </div>
+          )}
+        />
+      ))}
+    </Switch>
+  </BrowserRouter>
+);
 
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>{greeting || 'Welcome to ServiceMax!'}</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/components/App/App.js</code> and save to reload.
-        </p>
-        <div className="App-hello">
-          <Hello onSubmit={onSubmitHello} />
-        </div>
-      </div>
-    );
-  }
-}
+export default App;
