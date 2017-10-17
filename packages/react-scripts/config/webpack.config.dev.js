@@ -223,7 +223,7 @@ module.exports = {
               {
                 loader: require.resolve('sass-loader'),
                 options: {
-                  includePaths: ['bower_components'],
+                  includePaths: ['bower_components', 'node_modules', 'src'],
                 },
               },
             ],

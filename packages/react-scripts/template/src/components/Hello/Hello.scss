@@ -1,4 +1,7 @@
+@import 'theme/variables';
+
 .Hello {
+  font-family: $font-family;
   font-size: 18px;
 
   input {
