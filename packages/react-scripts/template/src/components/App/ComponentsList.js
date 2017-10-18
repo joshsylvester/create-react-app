@@ -4,12 +4,12 @@ import AppHello from 'components/AppHello';
 import Hello from 'components/Hello';
 
 const ComponentsList = () => (
-  <ul div="components-list">
+  <ul className="components-list">
     <li>
-      <Link to={'/AppHello'}>AppHello</Link>
+      <Link to={'/components/AppHello'}>AppHello</Link>
     </li>
     <li>
-      <Link to={'/Hello'}>Hello</Link>
+      <Link to={'/components/Hello'}>Hello</Link>
     </li>
   </ul>
 );
@@ -17,12 +17,13 @@ const ComponentsList = () => (
 ComponentsList.components = [
   {
     name: 'AppHello',
-    path: '/AppHello',
+    path: '/components/AppHello',
     component: AppHello,
   },
+
   {
     name: 'Hello',
-    path: '/Hello',
+    path: '/components/Hello',
     component: Hello,
   },
 ];
