@@ -1,15 +1,15 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { Link } from 'react-router-dom';
-import ComponentsList from './ComponentsList';
+import ContainersList from './ContainersList';
 
-describe('ComponentsList', () => {
+describe('ContainersList', () => {
   it('should render without crashing', () => {
-    const compList = shallow(<ComponentsList />);
+    const compList = shallow(<ContainersList />);
     expect(compList).toBeDefined();
   });
-  const compList = shallow(<ComponentsList />);
-  it('ComponentsList should only have a Link inside each list item', () => {
+  const compList = shallow(<ContainersList />);
+  it('ContainersList should only have a Link inside each list item', () => {
     compList.children().forEach(child => {
       expect(child.type()).toEqual('li');
       expect(child.children().length).toEqual(1);
@@ -17,10 +17,10 @@ describe('ComponentsList', () => {
     });
   });
 
-  it('ComponentsList should have a Route for each app/component', () => {
+  it('ContainersList should have a Route for each app/component', () => {
     compList.children().forEach((child, index) => {
       const link = child.childAt(0);
-      expect(link.props().to).toEqual(ComponentsList.components[index].path);
+      expect(link.props().to).toEqual(ContainersList.containers[index].path);
     });
   });
 });
