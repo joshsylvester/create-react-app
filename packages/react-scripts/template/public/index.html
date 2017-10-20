@@ -31,10 +31,27 @@
       If you open it directly in the browser, you will see an empty page.
 
       You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
 
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <!--
+      Use the webcomponents-loader script which will feature detect which Web
+      Components features are missing and lazy load the appropriate polyfills.
+      When we hear the 'WebComponentsReady' event from the polyfill bundle we can
+      insert our 'bundle.js'.
+    -->
+    <script>
+      (function () {
+        document.addEventListener('WebComponentsReady', function componentsReady() {
+          document.removeEventListener('WebComponentsReady', componentsReady, false);
+          var script = document.createElement('script');
+          script.src = '<%= htmlWebpackPlugin.files.js[0] %>';
+          var refScript = document.getElementsByTagName('script')[0];
+          refScript.parentNode.insertBefore(script, refScript);
+        }, false);
+      })();
+    </script>
+    <script src="/bower_components/webcomponentsjs/webcomponents-loader.js"></script>
   </body>
 </html>
