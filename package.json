@@ -14,7 +14,6 @@
     "precommit": "lint-staged"
   },
   "devDependencies": {
-    "copy-webpack-plugin": "^4.2.0",
     "eslint": "^4.4.1",
     "husky": "^0.13.2",
     "lerna": "^2.0.0",
