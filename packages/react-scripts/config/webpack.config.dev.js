@@ -11,6 +11,7 @@
 'use strict';
 
 const autoprefixer = require('autoprefixer');
+const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -32,6 +33,8 @@ const publicPath = '/';
 const publicUrl = '';
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
+
+const containUIComponents = fs.existsSync(path.resolve(paths.appNodeModules, "@svmx/ui-components-predix/bower_components"));
 
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
@@ -259,7 +262,8 @@ module.exports = {
     new InterpolateHtmlPlugin(env.raw),
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
-      inject: false,
+      inject: !containUIComponents,
+      containUIComponents: containUIComponents,
       template: paths.appHtml,
     }),
     // Add module names to factory functions so they appear in browser profiler.
@@ -286,7 +290,8 @@ module.exports = {
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),    
     new CopyWebpackPlugin([
       {
-        from: 'node_modules/@svmx/ui-components-predix/bower_components',
+        context: path.resolve(paths.appNodeModules, "@svmx/ui-components-predix/bower_components"),
+        from: '**/*',
         to: 'bower_components',
       },
     ])

@@ -17,7 +17,7 @@ it('sets name state on input change', () => {
 it('sets input name on state change', () => {
   const wrapper = shallow(<Hello onSubmit={jest.fn()} />);
   wrapper.setState({ name: 'foo' });
-  expect(wrapper.find('input').node.props.value).toEqual('foo');
+  expect(wrapper.find('input').prop('value')).toEqual('foo');
 });
 
 it('calls onSubmit when form is submitted', () => {
