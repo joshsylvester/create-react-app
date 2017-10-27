@@ -11,6 +11,7 @@
 'use strict';
 
 const autoprefixer = require('autoprefixer');
+const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -38,6 +39,8 @@ const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 const publicUrl = publicPath.slice(0, -1);
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
+
+const containUIComponents = fs.existsSync(path.resolve(paths.appNodeModules, "@svmx/ui-components-predix/bower_components"));
 
 // Assert this just to be safe.
 // Development builds of React are slow and not intended for production.
@@ -279,8 +282,8 @@ module.exports = {
     new InterpolateHtmlPlugin(env.raw),
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
-      inject: false,
-      template: paths.appHtml,
+      inject: !containUIComponents,
+      containUIComponents: containUIComponents,
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -365,7 +368,8 @@ module.exports = {
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new CopyWebpackPlugin([
       {
-        from: 'node_modules/@svmx/ui-components-predix/bower_components',
+        context: path.resolve(paths.appNodeModules, "@svmx/ui-components-predix/bower_components"),
+        from: '**/*',
         to: 'bower_components',
       },
     ])
