@@ -11,6 +11,7 @@
 'use strict';
 
 const autoprefixer = require('autoprefixer');
+const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -32,6 +33,8 @@ const publicPath = '/';
 const publicUrl = '';
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
+
+const containUIComponents = fs.existsSync(path.resolve(paths.appNodeModules, "@svmx/ui-components-predix/bower_components"));
 
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
@@ -261,7 +264,8 @@ module.exports = {
     new InterpolateHtmlPlugin(env.raw),
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
-      inject: false,
+      inject: !containUIComponents,
+      containUIComponents: containUIComponents,
       template: paths.appHtml,
     }),
     // Add module names to factory functions so they appear in browser profiler.
@@ -285,15 +289,14 @@ module.exports = {
     // solution that requires the user to opt into importing specific locales.
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
-    // @svmx - if you install @svmx/ui-componnents-predix, you will need to add the
-    // uncomment the following block, and add a comma at the end of the line above.
-    // new CopyWebpackPlugin([
-    //   {
-    //     from: 'node_modules/@svmx/ui-components-predix/bower_components',
-    //     to: 'bower_components',
-    //   },
-    // ])
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new CopyWebpackPlugin([
+      {
+        context: path.resolve(paths.appNodeModules, "@svmx/ui-components-predix/bower_components"),
+        from: '**/*',
+        to: 'bower_components',
+      },
+    ])
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
