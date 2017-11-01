@@ -15,15 +15,15 @@ const propTypes = {
 
 const AppHello = props => (
   <div className="AppHello">
-    <div className="AppHello-header">
-      <img src={logo} className="AppHello-logo" alt="logo" />
+    <div className="AppHello__header">
+      <img src={logo} className="AppHello__logo" alt="logo" />
       <h2>{props.greeting || 'Welcome to ServiceMax!'}</h2>
     </div>
-    <p className="AppHello-intro">
+    <p className="AppHello__intro">
       To get started, edit <code>src/components/app/AppHello.js</code> and save
       to reload.
     </p>
-    <div className="AppHello-hello">
+    <div className="AppHello__hello">
       <Hello onSubmit={props.onSubmitHello} />
     </div>
   </div>

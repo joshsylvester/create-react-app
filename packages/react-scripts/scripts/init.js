@@ -42,9 +42,11 @@ module.exports = function(
   appPackage.scripts = {
     start: 'react-scripts start',
     build: 'react-scripts build',
-    test: 'react-scripts test --env=jsdom',
     eject: 'react-scripts eject',
+    test: 'react-scripts test --env=jsdom',
+    cov: 'react-scripts test --env=jsdom --coverage',
     lint: 'NODE_ENV=development eslint js test *.js',
+    'lint-style': 'NODE_ENV=development stylelint --f string --syntax scss "src/**/*.scss";exit 0',
     prettier: 'NODE_ENV=development prettier-eslint --write "src/**/*.js"',
     tree: 'react-scripts tree',
   };
