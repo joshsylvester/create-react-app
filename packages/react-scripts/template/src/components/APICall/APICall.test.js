@@ -14,7 +14,7 @@ describe('APICall', () => {
     expect(wrapper.find('.api-call > div').text()).toEqual('Loading..');
 
     wrapper.setState({
-      loaded: true,
+      hasLoaded: true,
     });
 
     expect(wrapper.find('.api-call > div').text()).toEqual('Error on fetch!');
@@ -35,15 +35,15 @@ describe('APICall', () => {
     const wrapper = mount(<APICall url="FDASFASFDASFDAVAFVW" />);
     setTimeout(() => {
       expect(wrapper.state('data')).toEqual(false);
-      expect(wrapper.state('loaded')).toEqual(true);
+      expect(wrapper.state('hasLoaded')).toEqual(true);
     }, 100);
   });
 
-  it('should go to fail state if bad API call', () => {
+  it('should go to loaded state if successful API call', () => {
     const wrapper = mount(<APICall />);
     setTimeout(() => {
       expect(wrapper.state('data')).toEqual(true);
-      expect(wrapper.state('loaded')).toEqual(true);
+      expect(wrapper.state('hasLoaded')).toEqual(true);
     }, 100);
   });
 });

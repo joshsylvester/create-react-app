@@ -13,7 +13,7 @@ class APICall extends Component {
   constructor() {
     super();
     this.state = {
-      loaded: false,
+      hasLoaded: false,
       data: false,
     };
   }
@@ -29,29 +29,29 @@ class APICall extends Component {
       // If error getting response
       .catch(() => {
         this.setState({
-          loaded: true,
+          hasLoaded: true,
         });
       })
       .then(result => {
         this.setState({
-          loaded: true,
+          hasLoaded: true,
           data: JSON.stringify(result),
         });
       });
   }
 
   render() {
-    const { data, loaded } = this.state;
+    const { data, hasLoaded } = this.state;
     return (
       <div className="api-call">
         {/* Case if waiting for response */}
-        {!loaded && !data && <div className="loading-cls">Loading..</div>}
+        {!hasLoaded && !data && <div className="loading-cls">Loading..</div>}
 
         {/* Case if successful response */}
-        {loaded && data && <div className="data">{data}</div>}
+        {hasLoaded && data && <div className="data">{data}</div>}
 
         {/* Case if error response */}
-        {loaded && !data && <div className="error">Error on fetch!</div>}
+        {hasLoaded && !data && <div className="error">Error on fetch!</div>}
       </div>
     );
   }
