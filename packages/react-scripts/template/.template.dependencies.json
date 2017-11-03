@@ -14,7 +14,6 @@
   "devDependencies": {
     "jest": "20.0.4",
     "enzyme": "^3.1.0",
-    "enzyme-adapter-react-16": "^1.0.2",
+    "enzyme-adapter-react-16": "^1.0.2"
   }
-
 }
