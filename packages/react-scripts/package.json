@@ -20,11 +20,6 @@
   "bin": {
     "react-scripts": "./bin/react-scripts.js"
   },
-  "scripts": {
-    "cov": "react-scripts test --env=jsdom --coverage",
-    "lint-style": "stylelint --f string --syntax scss \"src/**/*.scss\"; exit 0",
-    "tree": "node ./scripts/buildcomplist.js"
-  },
   "homepage": "./",
   "dependencies": {
     "autoprefixer": "7.1.2",

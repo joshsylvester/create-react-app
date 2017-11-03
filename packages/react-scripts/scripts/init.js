@@ -45,8 +45,11 @@ module.exports = function(
     eject: 'react-scripts eject',
     test: 'react-scripts test --env=jsdom',
     cov: 'react-scripts test --env=jsdom --coverage',
-    lint: "NODE_ENV=development eslint --config .eslintrc.json src;exit 0",
-    'lint-style': 'NODE_ENV=development stylelint --f string --syntax scss "src/**/*.scss";exit 0',
+    lint: "NODE_ENV=development eslint --config .eslintrc.json src; exit 0",
+    'lint-style': 'NODE_ENV=development stylelint --f string --syntax scss "src/**/*.scss"; exit 0',
+    'lint-report': 'mkdir -p report && npm run lint-js-report && npm run lint-style-report',
+    'lint-js-report': 'eslint -f checkstyle lib > report/eslint.xml; exit 0',
+    'lint-style-report': 'stylelint --syntax scss "src/**/*.scss" > report/stylelint.xml',
     prettier: 'NODE_ENV=development prettier-eslint --write "src/**/*.js"',
     tree: 'react-scripts tree',
   };
@@ -100,7 +103,7 @@ module.exports = function(
   let command;
   let args;
   let devArgs;
-  let hasDevArgs = false;
+  let devTemplateDependencies;
 
   if (useYarn) {
     command = 'yarnpkg';
@@ -128,7 +131,6 @@ module.exports = function(
 
     const devTemplateDependencies = require(templateDependenciesPath).devDependencies;
     if (devTemplateDependencies) {
-      hasDevArgs = true;
       devArgs = devArgs.concat(Object.keys(devTemplateDependencies).map(
           key => {
             return `${key}@${devTemplateDependencies[key]}`;
@@ -143,9 +145,9 @@ module.exports = function(
   // which doesn't install react and react-dom along with react-scripts
   // or template is presetend (via --internal-testing-template)
   // ServiceMax Note: always do this because we need template dependencies
+  //eslint-disable-next-line
   if (true || !isReactInstalled(appPackage) || template) {
-    console.log(`Installing template dependencies using ${command}...`);
-    console.log();
+    console.log(`\nInstalling template dependencies using ${command}...\n`);
 
     const proc = spawn.sync(command, args, { stdio: 'inherit' });
     if (proc.status !== 0) {
@@ -153,10 +155,9 @@ module.exports = function(
       return;
     }
 
-    if (hasDevArgs) {
-      console.log(`Installing template devDependencies using ${command}...`);
-      console.log();
-      const devProc = spawn.sync(command, devArgs, { stdio: 'inherit' });
+    if (devTemplateDependencies) {
+      console.log(`\nInstalling template devDependencies using ${command}...\n`);
+      const devProc = spawn.sync(command, devArgs, { stdio: "inherit" });
       if (devProc.status !== 0) {
         console.error(`\`${command} ${devArgs.join(" ")}\` failed`);
         return;
