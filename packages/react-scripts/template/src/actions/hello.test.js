@@ -1,4 +1,4 @@
-import actions, { HELLO_WORLD, reducer } from "./hello";
+import actions, { HELLO_WORLD, reducer } from './hello';
 
 describe('actions/greet', () => {
   it('should create a greet action', () => {

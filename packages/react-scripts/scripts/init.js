@@ -154,6 +154,8 @@ module.exports = function(
     }
 
     if (hasDevArgs) {
+      console.log(`Installing template devDependencies using ${command}...`);
+      console.log();
       const devProc = spawn.sync(command, devArgs, { stdio: 'inherit' });
       if (devProc.status !== 0) {
         console.error(`\`${command} ${devArgs.join(" ")}\` failed`);
