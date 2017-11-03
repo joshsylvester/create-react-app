@@ -24,11 +24,27 @@
     "import/first": "off",
     "react/jsx-filename-extension": "off",
     "react/prefer-stateless-function": "off",
-    "react/require-default-props": "off"
+    "react/require-default-props": "off",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "scripts/**/*.js",
+          "src/**/*.test.js",
+          "src/test/*.js"
+        ]
+      }
+    ]
   },
   "settings": {
     "import/resolver": {
-      "babel-module": {}
+      "babel-module": {},
+      "node": {
+        "moduleDirectory": [
+          "node_modules",
+          "src"
+        ]
+      }
     }
   }
 }

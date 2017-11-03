@@ -2,7 +2,7 @@ import helloService from 'services/hello';
 
 export const HELLO_WORLD = 'hello/world';
 
-export default {
+const actions = {
   greet(name) {
     return {
       type: HELLO_WORLD,
@@ -10,6 +10,7 @@ export default {
     };
   },
 };
+export default actions;
 
 const initialState = {
   greeting: null,

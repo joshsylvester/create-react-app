@@ -11,8 +11,7 @@ describe('AppContainer', () => {
     const wrapper = shallow(
       <Provider store={store}>
         <AppContainer />
-      </Provider>
-    );
+      </Provider>);
     expect(wrapper).toBeDefined();
   });
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { shallow } from 'enzyme';
 import Hello from './Hello';
 
@@ -10,7 +9,7 @@ it('renders without crashing', () => {
 
 it('sets name state on input change', () => {
   const wrapper = shallow(<Hello onSubmit={jest.fn()} />);
-  wrapper.find('input').simulate('change', { target: { value: 'foo' } })
+  wrapper.find('input').simulate('change', { target: { value: 'foo' } });
   expect(wrapper.state('name')).toEqual('foo');
 });
 
