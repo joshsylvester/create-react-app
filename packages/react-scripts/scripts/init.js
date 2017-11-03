@@ -45,7 +45,7 @@ module.exports = function(
     eject: 'react-scripts eject',
     test: 'react-scripts test --env=jsdom',
     cov: 'react-scripts test --env=jsdom --coverage',
-    lint: 'NODE_ENV=development eslint js test *.js',
+    lint: "NODE_ENV=development eslint --config .eslintrc.json src;exit 0",
     'lint-style': 'NODE_ENV=development stylelint --f string --syntax scss "src/**/*.scss";exit 0',
     prettier: 'NODE_ENV=development prettier-eslint --write "src/**/*.js"',
     tree: 'react-scripts tree',
@@ -99,6 +99,8 @@ module.exports = function(
 
   let command;
   let args;
+  let devArgs;
+  let hasDevArgs = false;
 
   if (useYarn) {
     command = 'yarnpkg';
@@ -106,8 +108,10 @@ module.exports = function(
   } else {
     command = 'npm';
     args = ['install', '--save', verbose && '--verbose'].filter(e => e);
+    devArgs = ["install", "--save-dev", verbose && "--verbose"].filter(e => e);
   }
   args.push('react', 'react-dom');
+
 
   // Install additional template dependencies, if present
   const templateDependenciesPath = path.join(
@@ -121,6 +125,17 @@ module.exports = function(
         return `${key}@${templateDependencies[key]}`;
       })
     );
+
+    const devTemplateDependencies = require(templateDependenciesPath).devDependencies;
+    if (devTemplateDependencies) {
+      hasDevArgs = true;
+      devArgs = devArgs.concat(Object.keys(devTemplateDependencies).map(
+          key => {
+            return `${key}@${devTemplateDependencies[key]}`;
+          }
+        ));
+    }
+
     fs.unlinkSync(templateDependenciesPath);
   }
 
@@ -136,6 +151,14 @@ module.exports = function(
     if (proc.status !== 0) {
       console.error(`\`${command} ${args.join(' ')}\` failed`);
       return;
+    }
+
+    if (hasDevArgs) {
+      const devProc = spawn.sync(command, devArgs, { stdio: 'inherit' });
+      if (devProc.status !== 0) {
+        console.error(`\`${command} ${devArgs.join(" ")}\` failed`);
+        return;
+      }
     }
   }
 

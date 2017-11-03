@@ -2,14 +2,15 @@ import helloService from 'services/hello';
 
 export const HELLO_WORLD = 'hello/world';
 
-export default {
+const actions = {
   greet(name) {
     return {
       type: HELLO_WORLD,
-      payload: helloService(name),
+      payload: helloService(name)
     };
-  },
+  }
 };
+export default actions;
 
 const initialState = {
   greeting: null,
