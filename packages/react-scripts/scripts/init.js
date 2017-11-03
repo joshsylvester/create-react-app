@@ -129,7 +129,8 @@ module.exports = function(
       })
     );
 
-    const devTemplateDependencies = require(templateDependenciesPath).devDependencies;
+    // Get devDependencies from the template if they exist, and parse accordingly.
+    devTemplateDependencies = require(templateDependenciesPath).devDependencies;
     if (devTemplateDependencies) {
       devArgs = devArgs.concat(Object.keys(devTemplateDependencies).map(
           key => {
