@@ -146,7 +146,7 @@ module.exports = function(
   // which doesn't install react and react-dom along with react-scripts
   // or template is presetend (via --internal-testing-template)
   // ServiceMax Note: always do this because we need template dependencies
-  //eslint-disable-next-line
+  // eslint-disable-next-line
   if (true || !isReactInstalled(appPackage) || template) {
     console.log(`\nInstalling template dependencies using ${command}...\n`);
 

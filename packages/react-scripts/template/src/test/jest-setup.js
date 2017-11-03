@@ -10,7 +10,7 @@ import Adapter from 'enzyme-adapter-react-16';
 configure({ adapter: new Adapter() });
 
 // Fail tests on any warning
-//eslint-disable-next-line
+// eslint-disable-next-line
 console.error = message => {
   throw new Error(message);
 };
