@@ -27,7 +27,7 @@ describe('APICall', () => {
     });
 
     expect(wrapper.find('.api-call > div').text()).toEqual(
-      JSON.stringify(data)
+      JSON.stringify(data),
     );
   });
 
