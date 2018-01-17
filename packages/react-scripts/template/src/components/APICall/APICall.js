@@ -32,25 +32,6 @@ class APICall extends Component {
     // this.fetchData(this.props.url);
   }
 
-  // fetchData = (url) => {
-  //   fetch(url)
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw Error(response.statusText);
-  //       }
-  //       this.setState({ hasLoaded: false });
-  //       return response;
-  //     })
-  //     .then((response) => response.json())
-  //     .then(result => {
-  //       this.setState({
-  //         hasLoaded: true,
-  //         data: JSON.stringify(result),
-  //       });
-  //     })
-  //     .catch((e) => { throw Error(e); });
-  // }
-
 
   render() {
     const { data, hasLoaded, hasErrored } = this.props;
