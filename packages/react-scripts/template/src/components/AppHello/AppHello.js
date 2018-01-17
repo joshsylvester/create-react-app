@@ -13,6 +13,7 @@ const propTypes = {
   greeting: PropTypes.string,
 };
 
+
 const AppHello = props => (
   <div className="AppHello">
     <div className="AppHello__header">

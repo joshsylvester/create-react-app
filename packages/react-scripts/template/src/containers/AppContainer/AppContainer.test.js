@@ -21,4 +21,13 @@ describe('AppContainer', () => {
     wrapper.instance().onSubmitHello({ name: 'foo' });
     expect(sayHello.mock.calls.length).toEqual(1);
   });
+
+  it('maps state and dispatch to props', () => {
+    const sayHello = jest.fn();
+    const wrapper = shallow(<AppContainer sayHello={sayHello} />);
+    expect(wrapper.props()).toEqual(expect.objectContaining({
+      sayHello: expect.any(Function),
+      onSubmitHello: expect.any(Function),
+    }));
+  });
 });
