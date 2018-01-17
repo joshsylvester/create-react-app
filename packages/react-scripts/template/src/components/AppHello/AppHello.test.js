@@ -8,6 +8,6 @@ it('renders without crashing', () => {
 });
 
 it('renders custom greeting when rendered', () => {
-  const wrapper = shallow(<AppHello onSubmitHello={jest.fn()} greeting="Sheela" />);
-  expect(wrapper.find('h2').text()).toEqual('Sheela');
+  const wrapper = shallow(<AppHello onSubmitHello={jest.fn()} greeting="Welcome SVMX" />);
+  expect(wrapper.find('h2').text()).toEqual('Welcome SVMX');
 });
