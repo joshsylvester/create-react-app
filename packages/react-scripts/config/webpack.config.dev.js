@@ -36,8 +36,8 @@ const env = getClientEnvironment(publicUrl);
 
 const uiLibBowerPath = 'node_modules/@svmx/ui-components-predix/bower_components';
 let jsIncludePaths = [paths.appSrc];
-let resolveModules = ['bower_components', 'node_modules', paths.appNodeModules];
-let sassIncludePaths = ['bower_components', 'node_modules', 'src'];
+let resolveModules = ['node_modules', paths.appNodeModules, 'bower_components'];
+let sassIncludePaths = ['node_modules', 'src', 'bower_components'];
 
 const containUIComponents = fs.existsSync(path.resolve(paths.appPath, uiLibBowerPath));
 
@@ -83,16 +83,16 @@ if (containUIComponents) {
     path.resolve(paths.appNodeModules, '@svmx/ui-components-predix/lib'),
   ];
   resolveModules = [
-    'bower_components',
-    uiLibBowerPath,
     'node_modules',
     paths.appNodeModules,
-  ];
-  sassIncludePaths = [
     'bower_components',
     uiLibBowerPath,
+  ];
+  sassIncludePaths = [
     'node_modules',
     'src',
+    'bower_components',
+    uiLibBowerPath,
   ];
   plugins.push(
     new CopyWebpackPlugin([
