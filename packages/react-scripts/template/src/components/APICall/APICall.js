@@ -29,7 +29,6 @@ class APICall extends Component {
 
   componentDidMount() {
     this.props.fetchData(this.props.url);
-    // this.fetchData(this.props.url);
   }
 
 

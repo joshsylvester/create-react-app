@@ -6,16 +6,14 @@ import thunk from 'redux-thunk';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('action get data', () => {
+describe('test actions and reducer', () => {
   it('should create a get Data action', () => {
     expect(apiFetchDataSuccess.apiFetchDataSuccess({ type: 'test' }).toEqual({
       type: 'API_FETCH_DATA_SUCCESS',
       data: { type: 'test' },
     }));
   });
-});
 
-describe('reducer', () => {
   it('should change the state and return the new state', () => {
     const state = { type: 'test-new' };
     const result = reducer(state, { type: 'API_FETCH_DATA_SUCCESS', data: { type: 'test' } });
