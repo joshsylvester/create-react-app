@@ -7,6 +7,10 @@ const defaultProps = {
 
 const propTypes = {
   url: PropType.string,
+  fetchData: PropType.func.isRequired,
+  data: PropType.node,
+  hasLoaded: PropType.bool,
+  hasErrored: PropType.bool,
 };
 
 class APICall extends Component {
@@ -21,27 +25,15 @@ class APICall extends Component {
   /**
    * Data response structure example
    * {time: "09:46:01 PM", milliseconds_since_epoch: 1509745561437, date: "11-03-2017"}
-   */
-  componentWillMount() {
-    fetch(this.props.url)
-      // Get response json
-      .then(response => response.json())
-      // If error getting response
-      .catch(() => {
-        this.setState({
-          hasLoaded: true,
-        });
-      })
-      .then(result => {
-        this.setState({
-          hasLoaded: true,
-          data: JSON.stringify(result),
-        });
-      });
+   */ 
+
+  componentDidMount() {
+    this.props.fetchData(this.props.url);
   }
 
+
   render() {
-    const { data, hasLoaded } = this.state;
+    const { data, hasLoaded, hasErrored } = this.props;
     return (
       <div className="api-call">
         {/* Case if waiting for response */}
@@ -51,7 +43,7 @@ class APICall extends Component {
         {hasLoaded && data && <div className="data">{data}</div>}
 
         {/* Case if error response */}
-        {hasLoaded && !data && <div className="error">Error on fetch!</div>}
+        {hasErrored && <div className="error">Error on fetch!</div>}
       </div>
     );
   }

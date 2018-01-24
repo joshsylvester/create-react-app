@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "fetch-mock": "^6.0.0-beta.7",
     "lodash": "4.17.4",
     "prop-types": "15.5.10",
     "react": "16.0.0",
@@ -9,7 +10,8 @@
     "redux": "3.7.2",
     "redux-mock-store": "1.2.3",
     "redux-promise": "0.5.3",
-    "redux-thunk": "2.2.0"
+    "redux-thunk": "2.2.0",
+    "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
     "jest": "21.2.1",
