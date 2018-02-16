@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { Provider } from 'react-redux';
 
 import { makeStore } from 'store';
-import { APICallContainer } from './SFAPICallContainer';
+import { SFAPICallContainer } from './SFAPICallContainer';
 
 const store = makeStore();
 
@@ -14,5 +14,13 @@ describe('SFAPICallContainer', () => {
         <SFAPICallContainer />
       </Provider>);
     expect(wrapper).toBeDefined();
+  });
+
+  it('maps state and dispatch to props', () => {
+    const fetchData = jest.fn();
+    const wrapper = shallow(<SFAPICallContainer fetchData={fetchData} />);
+    expect(wrapper.props()).toEqual(expect.objectContaining({
+      fetchData: expect.any(Function),
+    }));
   });
 });
