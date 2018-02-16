@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import APICall from 'components/APICall';
 import { apiSFFetchData } from 'actions/SFCall';
@@ -12,14 +13,25 @@ const mapDispatchToProps = (dispatch) => ({
   fetchData: () => dispatch(apiSFFetchData()),
 });
 
-export class APICallContainer extends React.PureComponent {
+const propTypes = {
+  fetchData: PropTypes.func,
+};
+
+const defaultProps = {
+  fetchData: null,
+};
+
+export class SFAPICallContainer extends React.PureComponent {
   componentDidMount() {
     this.props.fetchData();
   }
 
   render() {
-    return <APICall data={this.props.data} hasLoaded={this.props.hasLoaded} />;
+    return <APICall {...this.props} />;
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(APICallContainer);
+SFAPICallContainer.propTypes = propTypes;
+SFAPICallContainer.defaultProps = defaultProps;
+
+export default connect(mapStateToProps, mapDispatchToProps)(SFAPICallContainer);
