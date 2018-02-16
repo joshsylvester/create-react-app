@@ -1,24 +1,20 @@
+@import 'theme/variables';
+
 .AppHello {
   text-align: center;
 }
 
 .AppHello__logo {
-  animation: App-logo-spin infinite 20s linear;
   height: 80px;
 }
 
 .AppHello__header {
-  background-color: #222;
+  color: $color-white;
+  background-color: $color-dark-gray;
   height: 150px;
   padding: 20px;
-  color: #fff;
 }
 
 .AppHello__intro {
   font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }

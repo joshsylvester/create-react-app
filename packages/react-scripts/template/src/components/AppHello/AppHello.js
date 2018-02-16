@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Hello from 'components/Hello';
-import logo from './logo.svg';
+import logo from './GE-logo.svg';
 import './AppHello.scss';
 
 const defaultProps = {

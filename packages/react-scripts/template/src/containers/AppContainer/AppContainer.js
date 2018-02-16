@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import App from 'components/App';
+import AppHello from 'components/AppHello';
 import helloActions from 'actions/hello';
 
 const mapStateToProps = state => ({
@@ -18,7 +18,7 @@ export class AppContainer extends React.PureComponent {
   };
 
   render() {
-    return <App {...this.props} onSubmitHello={this.onSubmitHello} />;
+    return <AppHello {...this.props} onSubmitHello={this.onSubmitHello} />;
   }
 }
 
