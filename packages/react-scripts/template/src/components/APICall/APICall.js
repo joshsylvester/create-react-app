@@ -35,17 +35,22 @@ class APICall extends Component {
   }
 
   render() {
-    const { data, hasLoaded, hasErrored } = this.state;
+    const { data, hasLoaded, hasErrored } = this.props;
     return (
-      <div className="APICall">
+      <div className="api-call">
         {/* Case if waiting for response */}
-        {!hasLoaded && !data && <div className="APICall--loading">Loading..</div>}
+        {!hasLoaded && !data && <div className="loading-cls">Loading..</div>}
 
         {/* Case if successful response */}
-        {hasLoaded && data && <div className="APICall__data">{data}</div>}
+        {hasLoaded &&
+          data && (
+            <div className="data">
+              {JSON.stringify(data)}
+            </div>
+          )}
 
         {/* Case if error response */}
-        {hasErrored && <div className="APICall--error">Error on fetch!</div>}
+        {hasErrored && <div className="error">Error on fetch!</div>}
       </div>
     );
   }
