@@ -6,10 +6,10 @@
 const { app } = require('./app');
 
 function appListen3000() {
-  console.log('Listening on port 3001');
+  console.log('Listening on port 3000');
   return true;
 }
 
-const server = app.listen(3001, appListen3000);
+const server = app.listen(3000, appListen3000);
 
 module.exports = { server, appListen3000 };

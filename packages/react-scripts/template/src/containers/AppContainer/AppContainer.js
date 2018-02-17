@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import AppHello from 'components/AppHello';
 import helloActions from 'actions/hello';
 
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
   greeting: state.hello.greeting,
   loading: state.loading,
 });
 
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
   sayHello: async (name: string) => dispatch(helloActions.greet(name)),
 });
 

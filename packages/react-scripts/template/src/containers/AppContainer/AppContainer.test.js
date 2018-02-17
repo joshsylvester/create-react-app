@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { Provider } from 'react-redux';
 
 import { makeStore } from 'store';
-import { AppContainer } from './AppContainer';
+import { AppContainer, mapStateToProps, mapDispatchToProps } from './AppContainer';
 
 const store = makeStore();
 describe('AppContainer', () => {
@@ -29,5 +29,31 @@ describe('AppContainer', () => {
       sayHello: expect.any(Function),
       onSubmitHello: expect.any(Function),
     }));
+  });
+
+  it('calls mapStateToProps properly', () => {
+    const mockData = {
+      greeting: 'hello!',
+      loading: false,
+    };
+    const mockState = {
+      hello: {
+        greeting: 'hello!',
+      },
+      loading: false,
+    }
+    const result = mapStateToProps(mockState);
+    expect(result).toEqual(mockData);
+  });
+
+  it('calls mapDispatchToProps properly', () => {
+    const mockDispatch = jest.fn();
+    const result = mapDispatchToProps(mockDispatch);
+    expect(result).toEqual(expect.objectContaining({
+      sayHello: expect.any(Function),
+    }));
+
+    result.sayHello('');
+    expect(mockDispatch).toHaveBeenCalled();
   });
 });

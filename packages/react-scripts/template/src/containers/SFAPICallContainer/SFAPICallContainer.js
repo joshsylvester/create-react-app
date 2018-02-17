@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import APICall from 'components/APICall';
 import { apiSFFetchData } from 'actions/SFCall';
 
-const mapStateToProps = (state) => ({
+export const mapStateToProps = (state) => ({
   data: state.SFCall.data,
   hasLoaded: state.SFCall.hasLoaded,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch) => ({
   fetchData: () => dispatch(apiSFFetchData()),
 });
 
