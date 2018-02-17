@@ -8,15 +8,11 @@ const propTypes = {
   greeting: PropTypes.string,
 };
 
-const defaultProps = {
-  greeting: 'Welcome to ServiceMax!',
-};
-
 const AppHello = props => (
   <div className="AppHello">
     <div className="AppHello__header">
       <div className="AppHello__logo" alt="GE logo" />
-      <h2>{props.greeting}</h2>
+      <h2>{props.greeting || 'Welcome to ServiceMax!'}</h2>
     </div>
     <p className="AppHello__intro">
       To get started, edit <code>src/components/app/AppHello.js</code> and save
@@ -28,7 +24,6 @@ const AppHello = props => (
   </div>
 );
 
-AppHello.defaultProps = defaultProps;
 AppHello.propTypes = propTypes;
 
 export default AppHello;

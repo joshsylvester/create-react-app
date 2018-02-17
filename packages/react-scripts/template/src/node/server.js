@@ -3,13 +3,13 @@
  * Enter the consumerKey and consumerSecret from connected app salesforce
  * Please use callback url http://localhost:3000/oauth/callback while creating connected app
  */
-const { app } = require('./app');
+const { app, vars } = require('./app');
 
-function appListen3000() {
-  console.log('Listening on port 3000');
+function appServerIsListening() {
+  console.log(`Listening on port ${vars.serverPort}`);
   return true;
 }
 
-const server = app.listen(3000, appListen3000);
+const server = app.listen(vars.serverPort, appServerIsListening);
 
-module.exports = { server, appListen3000 };
+module.exports = { server, appServerIsListening };

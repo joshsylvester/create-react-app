@@ -7,22 +7,30 @@ const express = require('express');
 const oauth2 = require('salesforce-oauth2');
 const globalRequest = require('request');
 
-const callbackUrl = 'http://localhost:3000/oauth/callback';
-const consumerKey = '<enter the consumer key from connected app>';
-const consumerSecret = 'enter the consumer secret from connected app';
-const staticUrl = `${__dirname}/../../build`;
+const serverPort = 3000;
+
+function getCallbackUrl(port) {
+  return `http://localhost:${port}/oauth/callback`;
+}
 
 const vars = {
-  callbackUrl,
-  consumerKey,
-  consumerSecret,
-  staticUrl,
+  callbackUrl: getCallbackUrl(serverPort),
+  consumerKey: '<enter the consumer key from connected app>',
+  consumerSecret: 'enter the consumer secret from connected app',
+  staticUrl: `${__dirname}/../../build`,
+  serverPort,
 };
+
+function setServerPort(port) {
+  vars.serverPort = port;
+  vars.callbackUrl = getCallbackUrl(port);
+  return true;
+}
 
 function appRoot(request, response) {
   const uri = oauth2.getAuthorizationUrl({
-    redirect_uri: callbackUrl,
-    client_id: consumerKey,
+    redirect_uri: vars.callbackUrl,
+    client_id: vars.consumerKey,
     scope: 'api',
   });
   return response.redirect(uri);
@@ -43,7 +51,7 @@ function appGet(req, res) {
       url: uri,
       headers: {
         Authorization: authorization,
-      }
+      },
     },
     handleResponse,
   );
@@ -60,9 +68,9 @@ function appOauth(req, resp) {
   };
   oauth2.authenticate(
     {
-      redirect_uri: callbackUrl,
-      client_id: consumerKey,
-      client_secret: consumerSecret,
+      redirect_uri: vars.callbackUrl,
+      client_id: vars.consumerKey,
+      client_secret: vars.consumerSecret,
       code: authorizationCode,
     },
     callbackFn,
@@ -77,11 +85,13 @@ const actions = {
   appRoot,
   appGet,
   appOauth,
+  getCallbackUrl,
+  setServerPort,
 };
 
 // configure the express server.
 app.get('/', actions.appRoot);
-app.use(express.static(staticUrl));
+app.use(express.static(vars.staticUrl));
 app.get('/get', actions.appGet);
 app.get('/oauth/callback', actions.appOauth);
 
