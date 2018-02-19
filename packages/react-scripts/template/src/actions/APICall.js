@@ -12,9 +12,9 @@ export function apiDataIsLoading(bool) {
   };
 }
 
-export function apiDataHasErrored(bool) {
+export function apiDataHasError(bool) {
   return {
-    type: 'API_DATA_HAS_ERRORED',
+    type: 'API_DATA_HAS_ERROR',
     hasErrored: bool,
   };
 }
@@ -35,7 +35,7 @@ export function apiFetchData(url) {
       })
       .then((response) => response.json())
       .then((items) => dispatch(apiFetchDataSuccess(items)))
-      .catch(() => dispatch(apiDataHasErrored(true)));
+      .catch(() => dispatch(apiDataHasError(true)));
   };
 }
 

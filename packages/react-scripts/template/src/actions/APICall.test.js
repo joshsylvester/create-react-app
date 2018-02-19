@@ -27,25 +27,3 @@ describe('test actions and reducer', () => {
     expect(result).toEqual(state);
   });
 });
-
-describe('async actions', () => {
-  afterEach(() => {
-    fetchMock.reset();
-    fetchMock.restore();
-  });
-
-  /*it('creates API_FETCH_DATA_SUCCESS after fetching API data', () => {
-    fetchMock.getOnce('/data');
-
-    const expectedActions = [
-      {
-        type: 'API_FETCH_DATA_SUCCESS',
-      },
-    ];
-    const store = mockStore({ data: [] });
-
-    return store.dispatch(apiFetchData()).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
-  });*/
-});

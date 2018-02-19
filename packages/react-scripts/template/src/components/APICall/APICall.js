@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import PropType from 'prop-types';
 
+/**
+ * Default URL for CRA, Data response structure example from date.jsontest.com/
+ * {time: "09:46:01 PM", milliseconds_since_epoch: 1509745561437, date: "11-03-2017"}
+ */
+const DEFAULT_URL = 'http://date.jsontest.com/';
+
 const propTypes = {
   url: PropType.string,
   fetchData: PropType.func.isRequired,
@@ -13,7 +19,7 @@ const defaultProps = {
   data: null,
   hasLoaded: false,
   hasErrored: false,
-  url: 'http://date.jsontest.com/',
+  url: DEFAULT_URL,
 };
 
 class APICall extends Component {
@@ -26,10 +32,7 @@ class APICall extends Component {
     };
   }
 
-  /**
-   * Data response structure example from date.jsontest.com/
-   * {time: "09:46:01 PM", milliseconds_since_epoch: 1509745561437, date: "11-03-2017"}
-   */
+
   componentDidMount() {
     this.props.fetchData(this.props.url);
   }

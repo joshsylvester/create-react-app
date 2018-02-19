@@ -12,16 +12,18 @@ export function apiDataIsLoading(bool) {
   };
 }
 
-export function apiDataHasErrored(bool) {
+export function apiDataHasError(bool) {
   return {
-    type: 'API_DATA_HAS_ERRORED',
+    type: 'API_DATA_HAS_ERROR',
     hasErrored: bool,
   };
 }
 
 export function handleLocal(dispatch) {
-  const url =
-    '/services/data/v41.0/query?q=Select Id, Name from Account Limit 5';
+  // This url is the external Salesforce URL that gets executed by the local node server
+  const url ='/services/data/v41.0/query?q=Select Id, Name from Account Limit 5';
+
+  // Call "through" the local node server for local development
   fetch('/get?url=' + url)
     .then((response) => {
       if (!response.ok) {
@@ -34,19 +36,21 @@ export function handleLocal(dispatch) {
     })
     .then((response) => response.json())
     .then((items) => dispatch(apiFetchDataSuccess(items.records)))
-    .catch(() => dispatch(apiDataHasErrored(true)));
+    .catch(() => dispatch(apiDataHasError(true)));
 }
 
 export function handleRemote(dispatch) {
-  window.ReactTestJSR.JsrGetAccountData('{}', (result) => {
-    dispatch(apiFetchDataSuccess(result));
-  });
+  if (window && window.ReactTestJSR) {
+    window.ReactTestJSR.JsrGetAccountData('{}', (result) => {
+      dispatch(apiFetchDataSuccess(result));
+    });
+  }
 }
 
 export function apiSFFetchData() {
   return (dispatch) => {
     dispatch(apiDataIsLoading(true));
-    if (window.isRemote) {
+    if (window && window.isRemote) {
       handleRemote(dispatch);
     } else {
       handleLocal(dispatch);
