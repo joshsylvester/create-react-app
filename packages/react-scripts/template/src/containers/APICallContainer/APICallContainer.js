@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import APICall from 'components/APICall';
 import { apiFetchData } from 'actions/APICall';
 
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
   data: state.APICall.data,
   hasLoaded: state.APICall.hasLoaded,
 });
 
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
   fetchData: (url) => dispatch(apiFetchData(url)),
 });
 

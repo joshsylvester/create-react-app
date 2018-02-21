@@ -3,15 +3,15 @@ import { shallow, mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
 import { makeStore } from 'store';
-import { APICallContainer, mapStateToProps, mapDispatchToProps } from './APICallContainer';
+import { SFAPICallContainer, mapStateToProps, mapDispatchToProps } from './SFAPICallContainer';
 
 const store = makeStore();
 
-describe('APICallContainer', () => {
+describe('SFAPICallContainer', () => {
   it('renders without crashing', () => {
     const wrapper = shallow(
       <Provider store={store}>
-        <APICallContainer />
+        <SFAPICallContainer />
       </Provider>);
     expect(wrapper).toBeDefined();
   });
@@ -20,14 +20,14 @@ describe('APICallContainer', () => {
     const fetchMock = jest.fn();
     const wrapper = mount(
       <Provider store={store}>
-        <APICallContainer fetchData={fetchMock} />
+        <SFAPICallContainer fetchData={fetchMock} />
       </Provider>);
     expect(wrapper.find('.APICall').length).toBe(1);
   });
 
   it('maps state and dispatch to props', () => {
     const fetchData = jest.fn();
-    const wrapper = shallow(<APICallContainer fetchData={fetchData} />);
+    const wrapper = shallow(<SFAPICallContainer fetchData={fetchData} />);
     expect(wrapper.props()).toEqual(expect.objectContaining({
       fetchData: expect.any(Function),
     }));
@@ -39,7 +39,7 @@ describe('APICallContainer', () => {
       hasLoaded: true,
     };
     const mockState = {
-      APICall: mockData,
+      SFCall: mockData,
     }
     const result = mapStateToProps(mockState);
     expect(result).toEqual(mockData);
