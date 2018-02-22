@@ -23,22 +23,8 @@ const defaultProps = {
 };
 
 class APICall extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      hasLoaded: props.hasLoaded,
-      hasErrored: props.hasErrored,
-      data: props.data,
-    };
-  }
-
-
-  componentDidMount() {
-    this.props.fetchData(this.props.url);
-  }
-
   render() {
-    const { data, hasLoaded, hasErrored } = this.state;
+    const { data, hasLoaded, hasErrored } = this.props;
     return (
       <div className="APICall">
         {/* Case if waiting for response */}
