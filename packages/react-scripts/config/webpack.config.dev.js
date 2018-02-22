@@ -37,7 +37,6 @@ const env = getClientEnvironment(publicUrl);
 const uiLightningPath = path.resolve(paths.appNodeModules, '@svmx/ui-components-lightning');
 const uiPredixPath = path.resolve(paths.appNodeModules, '@svmx/ui-components-predix');
 const uiLibBowerPath = path.resolve(uiPredixPath, 'bower_components');
-const uiSFUXPath = path.resolve(paths.appNodeModules, '@salesforce-ux/design-system/assets');
 
 const containsUIPredixLibrary = fs.existsSync( uiPredixPath);
 const containsUILightningLibrary = fs.existsSync(uiLightningPath);
@@ -95,7 +94,7 @@ if (containsUILightningLibrary) {
   plugins.push(
     new CopyWebpackPlugin([
       {
-        context: uiSFUXPath,
+        context: path.resolve(paths.appNodeModules, '@salesforce-ux/design-system/assets'),
         from: '**/*',
         to: 'assets',
       },
