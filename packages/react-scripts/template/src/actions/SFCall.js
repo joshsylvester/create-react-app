@@ -27,7 +27,7 @@ export function handleLocal(dispatch) {
   fetch('/get?url=' + url)
     .then((response) => {
       if (!response.ok) {
-        dispatch(apiDataHasErrored(true));
+        dispatch(apiDataHasError(true));
       }
 
       dispatch(apiDataIsLoading(false));
