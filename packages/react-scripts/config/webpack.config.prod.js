@@ -197,7 +197,7 @@ if (containsUIPredixLibrary) {
   plugins.push(
     new CopyWebpackPlugin([
       {
-        context: path.resolve(paths.appPath, uiLibBowerPath),
+        context: path.resolve(paths.appPath, uiLibBuiltBowerPath),
         from: '**/*',
         to: 'bower_components',
       },
