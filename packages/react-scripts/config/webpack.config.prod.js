@@ -40,13 +40,18 @@ const publicUrl = publicPath.slice(0, -1);
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
 
-const uiLibBowerPath = 'node_modules/@svmx/ui-components-predix/bower_components';
-const uiLibBuiltBowerPath = 'node_modules/@svmx/ui-components-predix/build/bower_components';
-let jsIncludePaths = [paths.appSrc];
-let resolveModules = ['node_modules', paths.appNodeModules, 'bower_components'];
-let sassIncludePaths = ['node_modules', 'src', 'bower_components'];
+const uiLightningPath = path.resolve(paths.appNodeModules, '@svmx/ui-components-lightning');
+const uiPredixPath = path.resolve(paths.appNodeModules, '@svmx/ui-components-predix');
+const uiLibBowerPath = path.resolve(uiPredixPath, 'bower_components');
+const uiLibBuiltBowerPath = path.resolve(uiPredixPath, 'build/bower_components');
 
-const containUIComponents = fs.existsSync(path.resolve(paths.appPath, uiLibBowerPath));
+const containsUIPredixLibrary = fs.existsSync( uiPredixPath);
+const containsUILightningLibrary = fs.existsSync(uiLightningPath);
+const containsUIComponents = (containsUIPredixLibrary || containsUILightningLibrary);
+
+let jsIncludePaths = [paths.appSrc];
+let resolveModules = ['node_modules', paths.appNodeModules];
+let sassIncludePaths = ['node_modules', 'src'];
 
 // Assert this just to be safe.
 // Development builds of React are slow and not intended for production.
@@ -77,8 +82,10 @@ const plugins = [
   // Generates an `index.html` file with the <script> injected.
   new HtmlWebpackPlugin({
     template: paths.appHtml,
-    inject: !containUIComponents,
-    containUIComponents: containUIComponents,
+    inject: !containsUIComponents,
+    containsUIComponents: containsUIComponents,
+    containsUIPredix: containsUIPredixLibrary,
+    containsUILightning: containsUILightningLibrary,
     minify: {
       removeComments: true,
       collapseWhitespace: true,
@@ -163,17 +170,34 @@ const plugins = [
   new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
 ];
 
-if (containUIComponents) {
-  jsIncludePaths = [
-    paths.appSrc,
-    path.resolve(paths.appNodeModules, '@svmx/ui-components-predix/lib'),
-  ];
-  resolveModules = ['node_modules', paths.appNodeModules, 'bower_components', uiLibBowerPath];
-  sassIncludePaths = ['node_modules', 'src', 'bower_components', uiLibBowerPath];
+if (containsUILightningLibrary) {
+  jsIncludePaths.push(
+    path.resolve(uiLightningPath, 'lib'),
+  );
+  sassIncludePaths.push(
+    path.resolve(uiLightningPath, 'node_modules'),
+  );
   plugins.push(
     new CopyWebpackPlugin([
       {
-        context: path.resolve(paths.appPath, uiLibBuiltBowerPath),
+        context: path.resolve(paths.appNodeModules, '@salesforce-ux/design-system/assets'),
+        from: '**/*',
+        to: 'assets',
+      },
+    ])
+  );
+}
+
+if (containsUIPredixLibrary) {
+  jsIncludePaths.push(
+    path.resolve(uiPredixPath, 'lib'),
+  );
+  resolveModules.push('bower_components', uiLibBowerPath);
+  sassIncludePaths.push('bower_components', uiLibBowerPath);
+  plugins.push(
+    new CopyWebpackPlugin([
+      {
+        context: path.resolve(paths.appPath, uiLibBowerPath),
         from: '**/*',
         to: 'bower_components',
       },
@@ -346,6 +370,7 @@ module.exports = {
                         // Necessary for external CSS imports to work
                         // https://github.com/facebookincubator/create-react-app/issues/2677
                         ident: 'postcss',
+                        sourceMap: shouldUseSourceMap,
                         plugins: () => [
                           require('postcss-flexbugs-fixes'),
                           autoprefixer({
