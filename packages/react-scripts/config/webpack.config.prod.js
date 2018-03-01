@@ -177,15 +177,6 @@ if (containsUILightningLibrary) {
   sassIncludePaths.push(
     path.resolve(uiLightningPath, 'node_modules'),
   );
-  plugins.push(
-    new CopyWebpackPlugin([
-      {
-        context: path.resolve(paths.appNodeModules, '@salesforce-ux/design-system/assets'),
-        from: '**/*',
-        to: 'assets',
-      },
-    ])
-  );
 }
 
 if (containsUIPredixLibrary) {
