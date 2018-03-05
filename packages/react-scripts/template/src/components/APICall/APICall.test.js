@@ -1,7 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 
-//jest.mock('./APICall');
 import APICall from './APICall';
 
 describe('APICall', () => {
