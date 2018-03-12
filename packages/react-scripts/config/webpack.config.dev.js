@@ -59,6 +59,7 @@ const plugins = [
     containsUIPredix: containsUIPredixLibrary,
     containsUILightning: containsUILightningLibrary,
     template: paths.appHtml,
+    isDevelopment: true,
   }),
   // Add module names to factory functions so they appear in browser profiler.
   new webpack.NamedModulesPlugin(),
