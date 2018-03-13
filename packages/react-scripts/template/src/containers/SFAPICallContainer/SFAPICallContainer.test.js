@@ -1,46 +1,45 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
 import { makeStore } from 'store';
-import { AppContainer, mapStateToProps, mapDispatchToProps } from './AppContainer';
+import { SFAPICallContainer, mapStateToProps, mapDispatchToProps } from './SFAPICallContainer';
 
 const store = makeStore();
-describe('AppContainer', () => {
+
+describe('SFAPICallContainer', () => {
   it('renders without crashing', () => {
     const wrapper = shallow(
       <Provider store={store}>
-        <AppContainer />
+        <SFAPICallContainer />
       </Provider>);
     expect(wrapper).toBeDefined();
   });
 
-  it('calls sayHello from onSubmitHello', () => {
-    const sayHello = jest.fn();
-    const wrapper = shallow(<AppContainer sayHello={sayHello} />);
-    wrapper.instance().onSubmitHello({ name: 'foo' });
-    expect(sayHello.mock.calls.length).toEqual(1);
+  it('renders the APICall Component', () => {
+    const fetchMock = jest.fn();
+    const wrapper = mount(
+      <Provider store={store}>
+        <SFAPICallContainer fetchData={fetchMock} />
+      </Provider>);
+    expect(wrapper.find('.APICall').length).toBe(1);
   });
 
   it('maps state and dispatch to props', () => {
-    const sayHello = jest.fn();
-    const wrapper = shallow(<AppContainer sayHello={sayHello} />);
+    const fetchData = jest.fn();
+    const wrapper = shallow(<SFAPICallContainer fetchData={fetchData} />);
     expect(wrapper.props()).toEqual(expect.objectContaining({
-      sayHello: expect.any(Function),
-      onSubmitHello: expect.any(Function),
+      fetchData: expect.any(Function),
     }));
   });
 
   it('calls mapStateToProps properly', () => {
     const mockData = {
-      greeting: 'hello!',
-      loading: false,
+      data: true,
+      hasLoaded: true,
     };
     const mockState = {
-      hello: {
-        greeting: 'hello!',
-      },
-      loading: false,
+      SFCall: mockData,
     }
     const result = mapStateToProps(mockState);
     expect(result).toEqual(mockData);
@@ -50,10 +49,10 @@ describe('AppContainer', () => {
     const mockDispatch = jest.fn();
     const result = mapDispatchToProps(mockDispatch);
     expect(result).toEqual(expect.objectContaining({
-      sayHello: expect.any(Function),
+      fetchData: expect.any(Function),
     }));
 
-    result.sayHello('');
+    result.fetchData('');
     expect(mockDispatch).toHaveBeenCalled();
   });
 });

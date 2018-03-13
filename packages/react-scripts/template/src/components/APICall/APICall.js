@@ -1,57 +1,45 @@
 import React, { Component } from 'react';
 import PropType from 'prop-types';
 
-const defaultProps = {
-  url: 'http://date.jsontest.com/',
-};
+/**
+ * Default URL for CRA, Data response structure example from date.jsontest.com/
+ * {time: "09:46:01 PM", milliseconds_since_epoch: 1509745561437, date: "11-03-2017"}
+ */
+const DEFAULT_URL = 'http://date.jsontest.com/';
 
 const propTypes = {
   url: PropType.string,
+  fetchData: PropType.func.isRequired,
+  data: PropType.node,
+  hasLoaded: PropType.bool,
+  hasErrored: PropType.bool,
+};
+
+const defaultProps = {
+  data: null,
+  hasLoaded: false,
+  hasErrored: false,
+  url: DEFAULT_URL,
 };
 
 class APICall extends Component {
-  constructor() {
-    super();
-    this.state = {
-      hasLoaded: false,
-      data: false,
-    };
-  }
-
-  /**
-   * Data response structure example
-   * {time: "09:46:01 PM", milliseconds_since_epoch: 1509745561437, date: "11-03-2017"}
-   */
-  componentWillMount() {
-    fetch(this.props.url)
-      // Get response json
-      .then(response => response.json())
-      // If error getting response
-      .catch(() => {
-        this.setState({
-          hasLoaded: true,
-        });
-      })
-      .then(result => {
-        this.setState({
-          hasLoaded: true,
-          data: JSON.stringify(result),
-        });
-      });
-  }
-
   render() {
-    const { data, hasLoaded } = this.state;
+    const { data, hasLoaded, hasErrored } = this.props;
     return (
-      <div className="api-call">
+      <div className="APICall">
         {/* Case if waiting for response */}
-        {!hasLoaded && !data && <div className="loading-cls">Loading..</div>}
+        {!hasLoaded && !data && <div className="APICall--loading">Loading..</div>}
 
         {/* Case if successful response */}
-        {hasLoaded && data && <div className="data">{data}</div>}
+        {hasLoaded &&
+          data && (
+            <div className="APICall__data">
+              {JSON.stringify(data)}
+            </div>
+          )}
 
         {/* Case if error response */}
-        {hasLoaded && !data && <div className="error">Error on fetch!</div>}
+        {hasErrored && <div className="APICall--error">Error on fetch!</div>}
       </div>
     );
   }

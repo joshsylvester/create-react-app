@@ -16,9 +16,11 @@
   },
   "rules": {
     "arrow-parens": "off", // Incompatible with prettier
-    "no-unused-vars": "warn",
+    "no-unused-vars": ["error", { "ignoreRestSiblings": true }],
     "no-debugger": "warn",
     "no-console": "warn",
+    "no-trailing-spaces": ["error", { "ignoreComments": true }],
+    "lines-between-class-members": ["error", "always"],
     "import/no-named-as-default": "off",
     "import/prefer-default-export": "off",
     "import/first": "off",

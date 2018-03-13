@@ -52,6 +52,7 @@ module.exports = function(
     'lint-style-report': 'stylelint --syntax scss "src/**/*.scss" > report/stylelint.xml',
     prettier: 'NODE_ENV=development prettier-eslint --write "src/**/*.js"',
     tree: 'react-scripts tree',
+    'sf-server': 'node ./src/node/server.js',
   };
 
   fs.writeFileSync(

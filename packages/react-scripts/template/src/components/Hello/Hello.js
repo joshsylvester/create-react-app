@@ -2,9 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './Hello.scss';
 
-const defaultProps = {
-  onSubmit: () => {},
-};
 const propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
@@ -26,7 +23,7 @@ class Hello extends React.PureComponent {
 
   render() {
     return (
-      <div className="Hello">
+      <div className="Hello Hello--default">
         <form onSubmit={this.onSubmitForm}>
           <input
             placeholder="Enter your name"
@@ -41,6 +38,5 @@ class Hello extends React.PureComponent {
 }
 
 Hello.propTypes = propTypes;
-Hello.defaultProps = defaultProps;
 
 export default Hello;

@@ -34,7 +34,91 @@ const publicUrl = '';
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
 
-const containUIComponents = fs.existsSync(path.resolve(paths.appNodeModules, "@svmx/ui-components-predix/bower_components"));
+const uiLightningPath = path.resolve(paths.appNodeModules, '@svmx/ui-components-lightning');
+const uiPredixPath = path.resolve(paths.appNodeModules, '@svmx/ui-components-predix');
+const uiLibBowerPath = path.resolve(uiPredixPath, 'bower_components');
+
+const containsUIPredixLibrary = fs.existsSync( uiPredixPath);
+const containsUILightningLibrary = fs.existsSync(uiLightningPath);
+const containsUIComponents = (containsUIPredixLibrary || containsUILightningLibrary);
+
+let jsIncludePaths = [paths.appSrc];
+let resolveModules = ['node_modules', paths.appNodeModules];
+let sassIncludePaths = ['node_modules', 'src'];
+
+const plugins = [
+  // Makes some environment variables available in index.html.
+  // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
+  // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+  // In development, this will be an empty string.
+  new InterpolateHtmlPlugin(env.raw),
+  // Generates an `index.html` file with the <script> injected.
+  new HtmlWebpackPlugin({
+    inject: !containsUIComponents,
+    containsUIComponents: containsUIComponents,
+    containsUIPredix: containsUIPredixLibrary,
+    containsUILightning: containsUILightningLibrary,
+    template: paths.appHtml,
+    isDevelopment: true,
+  }),
+  // Add module names to factory functions so they appear in browser profiler.
+  new webpack.NamedModulesPlugin(),
+  // Makes some environment variables available to the JS code, for example:
+  // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
+  new webpack.DefinePlugin(env.stringified),
+  // This is necessary to emit hot updates (currently CSS only):
+  new webpack.HotModuleReplacementPlugin(),
+  // Watcher doesn't work well if you mistype casing in a path so we use
+  // a plugin that prints an error when you attempt to do this.
+  // See https://github.com/facebookincubator/create-react-app/issues/240
+  new CaseSensitivePathsPlugin(),
+  // If you require a missing module and then `npm install` it, you still have
+  // to restart the development server for Webpack to discover it. This plugin
+  // makes the discovery automatic so you don't have to restart.
+  // See https://github.com/facebookincubator/create-react-app/issues/186
+  new WatchMissingNodeModulesPlugin(paths.appNodeModules),
+  // Moment.js is an extremely popular library that bundles large locale files
+  // by default due to how Webpack interprets its code. This is a practical
+  // solution that requires the user to opt into importing specific locales.
+  // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
+  // You can remove this if you don't use Moment.js:
+  new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+];
+
+if (containsUILightningLibrary) {
+  jsIncludePaths.push(
+    path.resolve(uiLightningPath, 'lib'),
+  );
+  sassIncludePaths.push(
+    path.resolve(uiLightningPath, 'node_modules'),
+  );
+  plugins.push(
+    new CopyWebpackPlugin([
+      {
+        context: path.resolve(paths.appNodeModules, '@salesforce-ux/design-system/assets'),
+        from: '**/*',
+        to: 'assets',
+      },
+    ])
+  );
+}
+
+if (containsUIPredixLibrary) {
+  jsIncludePaths.push(
+    path.resolve(uiPredixPath, 'lib'),
+  );
+  resolveModules.push('bower_components', uiLibBowerPath);
+  sassIncludePaths.push('bower_components', uiLibBowerPath);
+  plugins.push(
+    new CopyWebpackPlugin([
+      {
+        context: path.resolve(paths.appPath, uiLibBowerPath),
+        from: '**/*',
+        to: 'bower_components',
+      },
+    ])
+  );
+}
 
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
@@ -84,15 +168,12 @@ module.exports = {
       path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
   },
   resolve: {
+    symlinks: false,
     // This allows you to set a fallback for where Webpack should look for modules.
     // We placed these paths second because we want `node_modules` to "win"
     // if there are any conflicts. This matches Node resolution mechanism.
     // https://github.com/facebookincubator/create-react-app/issues/253
-    modules: [
-      'bower_components',
-      'node_modules/@svmx/ui-components-predix/bower_components',
-      'node_modules',
-      paths.appNodeModules].concat(
+    modules: resolveModules.concat(
         // It is guaranteed to exist because we tweak it in `env.js`
         process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
       ),
@@ -154,7 +235,7 @@ module.exports = {
             loader: require.resolve('eslint-loader'),
           },
         ],
-        include: paths.appSrc,
+        include: jsIncludePaths,
       },
       {
         // "oneOf" will traverse all following loaders until one will
@@ -175,7 +256,7 @@ module.exports = {
           // Process JS with Babel.
           {
             test: /\.(js|jsx)$/,
-            include: paths.appSrc,
+            include: jsIncludePaths,
             loader: require.resolve('babel-loader'),
             options: {
               // @remove-on-eject-begin
@@ -231,7 +312,7 @@ module.exports = {
               {
                 loader: require.resolve('sass-loader'),
                 options: {
-                  includePaths: ['bower_components', 'node_modules/@svmx/ui-components-predix/bower_components', 'node_modules', 'src'],
+                  includePaths: sassIncludePaths,
                 },
               },
             ],
@@ -258,48 +339,7 @@ module.exports = {
       // Make sure to add the new loader(s) before the "file" loader.
     ],
   },
-  plugins: [
-    // Makes some environment variables available in index.html.
-    // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
-    // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    // In development, this will be an empty string.
-    new InterpolateHtmlPlugin(env.raw),
-    // Generates an `index.html` file with the <script> injected.
-    new HtmlWebpackPlugin({
-      inject: !containUIComponents,
-      containUIComponents: containUIComponents,
-      template: paths.appHtml,
-    }),
-    // Add module names to factory functions so they appear in browser profiler.
-    new webpack.NamedModulesPlugin(),
-    // Makes some environment variables available to the JS code, for example:
-    // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
-    new webpack.DefinePlugin(env.stringified),
-    // This is necessary to emit hot updates (currently CSS only):
-    new webpack.HotModuleReplacementPlugin(),
-    // Watcher doesn't work well if you mistype casing in a path so we use
-    // a plugin that prints an error when you attempt to do this.
-    // See https://github.com/facebookincubator/create-react-app/issues/240
-    new CaseSensitivePathsPlugin(),
-    // If you require a missing module and then `npm install` it, you still have
-    // to restart the development server for Webpack to discover it. This plugin
-    // makes the discovery automatic so you don't have to restart.
-    // See https://github.com/facebookincubator/create-react-app/issues/186
-    new WatchMissingNodeModulesPlugin(paths.appNodeModules),
-    // Moment.js is an extremely popular library that bundles large locale files
-    // by default due to how Webpack interprets its code. This is a practical
-    // solution that requires the user to opt into importing specific locales.
-    // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
-    // You can remove this if you don't use Moment.js:
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    new CopyWebpackPlugin([
-      {
-        context: path.resolve(paths.appNodeModules, "@svmx/ui-components-predix/bower_components"),
-        from: '**/*',
-        to: 'bower_components',
-      },
-    ])
-  ],
+  plugins: plugins,
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
   node: {
