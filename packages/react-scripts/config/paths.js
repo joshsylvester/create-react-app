@@ -98,12 +98,19 @@ if (
   !reactScriptsLinked &&
   __dirname.indexOf(path.join('packages', 'react-scripts', 'config')) !== -1
 ) {
+  let indexHTMLFile = 'template/public/index.html';
+  if (fs.existsSync(resolveOwn('node_modules/@svmx/ui-components-lightning')) ) {
+    indexHTMLFile = 'template/public/index-lightning.html';
+  } else if (fs.existsSync(resolveOwn('node_modules/@svmx/ui-components-predix')) ) {
+    indexHTMLFile = 'template/public/index-predix.html';
+  }
+
   module.exports = {
     dotenv: resolveOwn('template/.env'),
     appPath: resolveApp('.'),
     appBuild: resolveOwn('../../build'),
     appPublic: resolveOwn('template/public'),
-    appHtml: resolveOwn('template/public/index.html'),
+    appHtml: resolveOwn(indexHTMLFile),
     appIndexJs: resolveOwn('template/src/index.js'),
     appPackageJson: resolveOwn('package.json'),
     appSrc: resolveOwn('template/src'),
