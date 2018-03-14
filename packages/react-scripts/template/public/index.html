@@ -1,6 +1,3 @@
-<% if (htmlWebpackPlugin.options.containsUILightning && !htmlWebpackPlugin.options.isDevelopment) { %>
-  <apex:slds/>
-<% } %>
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <head>
@@ -29,12 +26,21 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>ServiceMax</title>
+    <% if (htmlWebpackPlugin.options.containsUILightning && !htmlWebpackPlugin.options.isDevelopment) { %>
+      <apex:slds/>
+    <% } %>
   </head>
   <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
-    <div id="root"></div>
+  <% if (htmlWebpackPlugin.options.containsUILightning && !htmlWebpackPlugin.options.isDevelopment) { %>
+    <div class="slds-scope">
+  <% } %>
+      <noscript>
+        You need to enable JavaScript to run this app.
+      </noscript>
+      <div id="root"></div>
+  <% if (htmlWebpackPlugin.options.containsUILightning && !htmlWebpackPlugin.options.isDevelopment) { %>
+    </div>
+  <% } %>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
