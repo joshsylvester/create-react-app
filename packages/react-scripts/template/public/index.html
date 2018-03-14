@@ -1,5 +1,8 @@
+<% if (htmlWebpackPlugin.options.containsUILightning && !htmlWebpackPlugin.options.isDevelopment) { %>
+  <apex:slds/>
+<% } %>
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -70,6 +73,12 @@
     </custom-style>
     <% } else { %>
       <script type="text/javascript" src="%PUBLIC_URL%<%= htmlWebpackPlugin.files.js[0] %>"></script>
+    <% } %>
+    <% if (htmlWebpackPlugin.options.containsUILightning && !htmlWebpackPlugin.options.isDevelopment) { %>
+      <script>
+        var isRemote = true;
+        var ASSET_ROOT = "{!URLFOR($Asset.SLDS)}";
+      </script>
     <% } %>
   </body>
 </html>
