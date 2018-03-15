@@ -1,20 +1,20 @@
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="theme-color" content="#000000" />
     <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
     <% if (htmlWebpackPlugin.options.containsUILightning && htmlWebpackPlugin.options.isDevelopment) { %>
-      <link href="%PUBLIC_URL%/assets/styles/salesforce-lightning-design-system.css" rel="stylesheet">
+      <link href="%PUBLIC_URL%/assets/styles/salesforce-lightning-design-system.css" rel="stylesheet" />
     <% } %>
     <% if (htmlWebpackPlugin.options.containsUIComponents) { %>
-      <link href="%PUBLIC_URL%<%=htmlWebpackPlugin.files.css[0]%>" rel="stylesheet">
+      <link href="<%=htmlWebpackPlugin.files.css[0]%>" rel="stylesheet" />
     <% } %>
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -72,13 +72,13 @@
       })();
     </script>
     <script src="%PUBLIC_URL%/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="import" href="%PUBLIC_URL%/bower_components/polymer/polymer.html">
-    <link rel="import" href="%PUBLIC_URL%/bower_components/px-theme/px-theme-styles.html">
+    <link rel="import" href="%PUBLIC_URL%/bower_components/polymer/polymer.html" />
+    <link rel="import" href="%PUBLIC_URL%/bower_components/px-theme/px-theme-styles.html" />
     <custom-style>
       <style include="px-theme-styles" is="custom-style"></style>
     </custom-style>
     <% } else { %>
-      <script type="text/javascript" src="%PUBLIC_URL%<%= htmlWebpackPlugin.files.js[0] %>"></script>
+      <script type="text/javascript" src="<%= htmlWebpackPlugin.files.js[0] %>"></script>
     <% } %>
     <% if (htmlWebpackPlugin.options.containsUILightning && !htmlWebpackPlugin.options.isDevelopment) { %>
       <script>

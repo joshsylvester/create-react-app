@@ -7,7 +7,7 @@ process.env.NODE_ENV = 'production';
 require('../config/env');
 
 const buildFolder = process.env.REACT_APP_SF_BUILD_FOLDER || 'CreateReactApp';
-const staticResource = process.env.REACT_APP_SF_STATIC_RESOURCE || 'create-react-app';
+const staticResource = process.env.REACT_APP_SF_STATIC_RESOURCE || 'create_react_app';
 const newPublicUrl = `{!URLFOR($Resource.${staticResource}, '${buildFolder}')}/`;
 
 const env = Object.create(process.env);
