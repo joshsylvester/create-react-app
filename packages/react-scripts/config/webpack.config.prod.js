@@ -60,7 +60,12 @@ if (env.stringified['process.env'].NODE_ENV !== '"production"') {
 }
 
 // Note: defined here because it will be used more than once.
-const cssFilename = 'static/css/[name].[contenthash:8].css';
+let cssFilename = 'static/css/[name].[contenthash:8].css';
+let jsFilename = 'static/js/[name].[contenthash:8].js';
+if (containsUIPredixLibrary) {
+  cssFilename = 'static/css/[name].css';
+  jsFilename = 'static/js/[name].js';
+}
 
 // ExtractTextPlugin expects the build output to be flat.
 // (See https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/27)
