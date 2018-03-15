@@ -53,6 +53,12 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
 
+    <% if (htmlWebpackPlugin.options.containsUILightning && !htmlWebpackPlugin.options.isDevelopment) { %>
+      <script>
+        var isRemote = true;
+        var ASSET_ROOT = "{!URLFOR($Asset.SLDS)}";
+      </script>
+    <% } %>
     <% if (htmlWebpackPlugin.options.containsUIPredix) { %>
     <!--
       Use the webcomponents-loader script which will feature detect which Web
@@ -79,12 +85,6 @@
     </custom-style>
     <% } else { %>
       <script type="text/javascript" src="<%= htmlWebpackPlugin.files.js[0] %>"></script>
-    <% } %>
-    <% if (htmlWebpackPlugin.options.containsUILightning && !htmlWebpackPlugin.options.isDevelopment) { %>
-      <script>
-        var isRemote = true;
-        var ASSET_ROOT = "{!URLFOR($Asset.SLDS)}";
-      </script>
     <% } %>
   </body>
 </html>
