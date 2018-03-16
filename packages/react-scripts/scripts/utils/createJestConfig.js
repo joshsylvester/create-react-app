@@ -44,7 +44,7 @@ module.exports = (resolve, rootDir, isEjecting) => {
       '^(?!.*\\.(js|jsx|css|json)$)': resolve('config/jest/fileTransform.js'),
     },
     transformIgnorePatterns: [
-      '[/\\\\]node_modules[/\\\\](?!@svmx[/\\\\]ui-components-predix).+\\.(js|jsx)$',
+      '[/\\\\]node_modules[/\\\\](?!@svmx[/\\\\]ui-components-(predix|lightning)).+\\.(js|jsx)$',
     ],
     moduleNameMapper: {
       '^react-native$': 'react-native-web',

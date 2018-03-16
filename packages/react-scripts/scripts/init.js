@@ -53,6 +53,7 @@ module.exports = function(
     prettier: 'NODE_ENV=development prettier-eslint --write "src/**/*.js"',
     tree: 'react-scripts tree',
     'sf-server': 'node ./src/node/server.js',
+    'sf-build': 'react-scripts salesforce',
   };
 
   fs.writeFileSync(
