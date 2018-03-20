@@ -20,6 +20,7 @@
     "no-debugger": "warn",
     "no-console": "warn",
     "no-trailing-spaces": ["error", { "ignoreComments": true }],
+    "no-multiple-empty-lines": ["error", { "max": 1 }],
     "lines-between-class-members": ["error", "always"],
     "import/no-named-as-default": "off",
     "import/prefer-default-export": "off",
