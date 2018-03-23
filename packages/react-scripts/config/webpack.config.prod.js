@@ -61,7 +61,7 @@ if (env.stringified['process.env'].NODE_ENV !== '"production"') {
 
 // Note: defined here because it will be used more than once.
 let cssFilename = 'static/css/[name].[contenthash:8].css';
-let jsFilename = 'static/js/[name].[contenthash:8].js';
+let jsFilename = 'static/js/[name].[chunkhash:8].js';
 if (containsUILightningLibrary) {
   cssFilename = 'static/css/[name].css';
   jsFilename = 'static/js/[name].js';
