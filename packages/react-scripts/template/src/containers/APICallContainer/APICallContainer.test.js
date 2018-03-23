@@ -40,7 +40,7 @@ describe('APICallContainer', () => {
     };
     const mockState = {
       APICall: mockData,
-    }
+    };
     const result = mapStateToProps(mockState);
     expect(result).toEqual(mockData);
   });

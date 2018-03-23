@@ -40,7 +40,7 @@ describe('SFAPICallContainer', () => {
     };
     const mockState = {
       SFCall: mockData,
-    }
+    };
     const result = mapStateToProps(mockState);
     expect(result).toEqual(mockData);
   });
