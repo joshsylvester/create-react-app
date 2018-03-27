@@ -41,7 +41,7 @@ describe('AppContainer', () => {
         greeting: 'hello!',
       },
       loading: false,
-    }
+    };
     const result = mapStateToProps(mockState);
     expect(result).toEqual(mockData);
   });

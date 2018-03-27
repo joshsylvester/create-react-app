@@ -2,8 +2,6 @@
 import { app, actions, vars } from './app';
 import request from 'supertest';
 
-const oauth2 = require('salesforce-oauth2');
-
 describe('node oauth server', () => {
   it('should redirect the root method by default', (done) => {
     request(app).get('/').then((response) => {
@@ -24,7 +22,7 @@ describe('node oauth server', () => {
   });
 
   it('should have the callback url set properly', () => {
-    expect(vars.callbackUrl).toMatch(/localhost:3000\/oauth\/callback/);
+    expect(vars.callbackUrl).toMatch(/localhost:5000\/oauth\/callback/);
   });
 
   it('should allow consumerKey and consumerSecret to be set properly', () => {
@@ -52,6 +50,7 @@ describe('node oauth server', () => {
     expect(vars.callbackUrl).toMatch('/localhost:3001/');
   });
 
+  // const oauth2 = require('salesforce-oauth2');
   // it('should redirect the oauth method', async (done) => {
   //   vars.consumerKey = '1234567890';
   //   vars.consumerSecret = 'password';

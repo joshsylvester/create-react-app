@@ -64,7 +64,6 @@ function appOauth(req, resp) {
     global.instanceUrl = payload.instance_url;
     global.accessToken = payload.access_token;
 
-    console.log(payload);
     return resp.redirect(`${localReactServer}/index.html`);
   };
   oauth2.authenticate(

@@ -1,10 +1,4 @@
-import { apiFetchDataSuccess, reducer, apiFetchData } from './APICall';
-import fetchMock from 'fetch-mock';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
+import { apiFetchDataSuccess, reducer } from './APICall';
 
 describe('test actions and reducer', () => {
   it('should create a get Data action', () => {

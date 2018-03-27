@@ -6,6 +6,7 @@
 const { app, vars } = require('./app');
 
 function appServerIsListening() {
+  // eslint-disable-next-line
   console.log(`Listening on port ${vars.serverPort}`);
   return true;
 }

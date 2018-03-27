@@ -3,10 +3,10 @@ import { actions } from './app';
 describe('node oauth server', () => {
   let serverParam;
   beforeEach(() => {
-    // eslint-disable-next-line
     const setPortResult = actions.setServerPort(3001);
     expect(setPortResult).toBe(true);
 
+    // eslint-disable-next-line
     serverParam = require('./server.js');
   });
   afterEach(() => {
