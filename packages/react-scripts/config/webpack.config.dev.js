@@ -23,6 +23,7 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
+const libs = require('./libs');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -34,16 +35,18 @@ const publicUrl = '';
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
 
-const uiLightningPath = path.resolve(paths.appNodeModules, '@svmx/ui-components-lightning');
-const uiPredixPath = path.resolve(paths.appNodeModules, '@svmx/ui-components-predix');
+const appNodeModules = paths.appNodeModules;
+
+const uiLightningPath = path.resolve(appNodeModules, '@svmx/ui-components-lightning');
+const uiPredixPath = path.resolve(appNodeModules, '@svmx/ui-components-predix');
 const uiLibBowerPath = path.resolve(uiPredixPath, 'bower_components');
+const uiLibBuiltBowerPath = path.resolve(uiPredixPath, 'build/bower_components');
 
 const containsUIPredixLibrary = fs.existsSync( uiPredixPath);
 const containsUILightningLibrary = fs.existsSync(uiLightningPath);
 const containsUIComponents = (containsUIPredixLibrary || containsUILightningLibrary);
 
-let jsIncludePaths = [paths.appSrc];
-let resolveModules = ['node_modules', paths.appNodeModules];
+let resolveModules = ['node_modules', appNodeModules];
 let sassIncludePaths = ['node_modules', 'src'];
 
 const plugins = [
@@ -76,7 +79,7 @@ const plugins = [
   // to restart the development server for Webpack to discover it. This plugin
   // makes the discovery automatic so you don't have to restart.
   // See https://github.com/facebookincubator/create-react-app/issues/186
-  new WatchMissingNodeModulesPlugin(paths.appNodeModules),
+  new WatchMissingNodeModulesPlugin(appNodeModules),
   // Moment.js is an extremely popular library that bundles large locale files
   // by default due to how Webpack interprets its code. This is a practical
   // solution that requires the user to opt into importing specific locales.
@@ -86,16 +89,13 @@ const plugins = [
 ];
 
 if (containsUILightningLibrary) {
-  jsIncludePaths.push(
-    path.resolve(uiLightningPath, 'lib'),
-  );
   sassIncludePaths.push(
     path.resolve(uiLightningPath, 'node_modules'),
   );
   plugins.push(
     new CopyWebpackPlugin([
       {
-        context: path.resolve(paths.appNodeModules, '@salesforce-ux/design-system/assets'),
+        context: path.resolve(appNodeModules, '@salesforce-ux/design-system/assets'),
         from: '**/*',
         to: 'assets',
       },
@@ -104,21 +104,34 @@ if (containsUILightningLibrary) {
 }
 
 if (containsUIPredixLibrary) {
-  jsIncludePaths.push(
-    path.resolve(uiPredixPath, 'lib'),
-  );
   resolveModules.push('bower_components', uiLibBowerPath);
   sassIncludePaths.push('bower_components', uiLibBowerPath);
   plugins.push(
     new CopyWebpackPlugin([
       {
-        context: path.resolve(paths.appPath, uiLibBowerPath),
+        context: path.resolve(paths.appPath, uiLibBuiltBowerPath),
         from: '**/*',
         to: 'bower_components',
       },
     ])
   );
 }
+
+const jsIncludePaths = libs.reduce(
+  (result, lib) => {
+    const jsIncludePathsForLib = lib.jsIncludePaths || [];
+    const libName = lib.name;
+    jsIncludePathsForLib.forEach(jsIncludePath => {
+      const jsPath = path.resolve(appNodeModules, libName, jsIncludePath);
+      if (fs.existsSync(jsPath)) {
+        result.push(jsPath);
+      }
+    });
+    return result;
+  },
+  [paths.appSrc],
+);
+
 
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
