@@ -11,7 +11,18 @@
 
 const fs = require('fs');
 const chalk = require('chalk');
+const path = require('path');
 const paths = require('../../config/paths');
+const libs = require('../../config/libs');
+const appNodeModules = paths.appNodeModules;
+
+const transformIgnorePaths = libs.reduce((result, lib)=> {
+  const jsPath = path.resolve(appNodeModules, lib.name)
+  if (fs.existsSync(jsPath)) {
+    result.push(lib.name);
+  }
+  return result;
+}, []).join("|");
 
 module.exports = (resolve, rootDir, isEjecting) => {
   // Use this instead of `paths.testsSetup` to avoid putting
@@ -44,7 +55,7 @@ module.exports = (resolve, rootDir, isEjecting) => {
       '^(?!.*\\.(js|jsx|css|json)$)': resolve('config/jest/fileTransform.js'),
     },
     transformIgnorePatterns: [
-      '[/\\\\]node_modules[/\\\\](?!@svmx[/\\\\]ui-components-(predix|lightning)).+\\.(js|jsx)$',
+      `[/\\\\]node_modules[/\\\\](?!(${transformIgnorePaths})).+\\.(js|jsx)$`,
     ],
     moduleNameMapper: {
       '^react-native$': 'react-native-web',

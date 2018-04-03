@@ -24,6 +24,7 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
+const libs = require('./libs');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -40,8 +41,10 @@ const publicUrl = publicPath.slice(0, -1);
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
 
-const uiLightningPath = path.resolve(paths.appNodeModules, '@svmx/ui-components-lightning');
-const uiPredixPath = path.resolve(paths.appNodeModules, '@svmx/ui-components-predix');
+const appNodeModules = paths.appNodeModules;
+
+const uiLightningPath = path.resolve(appNodeModules, '@svmx/ui-components-lightning');
+const uiPredixPath = path.resolve(appNodeModules, '@svmx/ui-components-predix');
 const uiLibBowerPath = path.resolve(uiPredixPath, 'bower_components');
 const uiLibBuiltBowerPath = path.resolve(uiPredixPath, 'build/bower_components');
 
@@ -49,8 +52,9 @@ const containsUIPredixLibrary = fs.existsSync( uiPredixPath);
 const containsUILightningLibrary = fs.existsSync(uiLightningPath);
 const containsUIComponents = (containsUIPredixLibrary || containsUILightningLibrary);
 
-let jsIncludePaths = [paths.appSrc];
-let resolveModules = ['node_modules', paths.appNodeModules];
+
+
+let resolveModules = ['node_modules', appNodeModules];
 let sassIncludePaths = ['node_modules', 'src'];
 
 // Assert this just to be safe.
@@ -176,18 +180,12 @@ const plugins = [
 ];
 
 if (containsUILightningLibrary) {
-  jsIncludePaths.push(
-    path.resolve(uiLightningPath, 'lib'),
-  );
   sassIncludePaths.push(
     path.resolve(uiLightningPath, 'node_modules'),
   );
 }
 
 if (containsUIPredixLibrary) {
-  jsIncludePaths.push(
-    path.resolve(uiPredixPath, 'lib'),
-  );
   resolveModules.push('bower_components', uiLibBowerPath);
   sassIncludePaths.push('bower_components', uiLibBowerPath);
   plugins.push(
@@ -200,6 +198,21 @@ if (containsUIPredixLibrary) {
     ])
   );
 }
+
+const jsIncludePaths = libs.reduce(
+  (result, lib) => {
+    const jsIncludePathsForLib = lib.jsIncludePaths || [];
+    const libName = lib.name;
+    jsIncludePathsForLib.forEach(jsIncludePath => {
+      const jsPath = path.resolve(appNodeModules, libName, jsIncludePath);
+      if (fs.existsSync(jsPath)) {
+        result.push(jsPath);
+      }
+    });
+    return result;
+  },
+  [paths.appSrc],
+);
 
 // This is the production configuration.
 // It compiles slowly and is focused on producing a fast and minimal bundle.
