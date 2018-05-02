@@ -91,6 +91,7 @@ const plugins = [
 if (containsUILightningLibrary) {
   sassIncludePaths.push(
     path.resolve(uiLightningPath, 'node_modules'),
+    uiLightningPath
   );
   plugins.push(
     new CopyWebpackPlugin([
@@ -129,7 +130,7 @@ const jsIncludePaths = libs.reduce(
     });
     return result;
   },
-  [paths.appSrc],
+  [paths.appSrc]
 );
 
 

@@ -182,6 +182,7 @@ const plugins = [
 if (containsUILightningLibrary) {
   sassIncludePaths.push(
     path.resolve(uiLightningPath, 'node_modules'),
+    uiLightningPath
   );
 }
 
@@ -211,7 +212,7 @@ const jsIncludePaths = libs.reduce(
     });
     return result;
   },
-  [paths.appSrc],
+  [paths.appSrc]
 );
 
 // This is the production configuration.
