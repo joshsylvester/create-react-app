@@ -40,7 +40,7 @@ const appNodeModules = paths.appNodeModules;
 const uiLightningPath = path.resolve(appNodeModules, '@svmx/ui-components-lightning');
 const uiPredixPath = path.resolve(appNodeModules, '@svmx/ui-components-predix');
 const uiLibBowerPath = path.resolve(uiPredixPath, 'bower_components');
-const uiLibBuiltBowerPath = path.resolve(uiPredixPath, 'build/bower_components');
+const uiLibBuiltBowerPath = path.resolve(uiPredixPath, 'build/polymer');
 
 const containsUIPredixLibrary = fs.existsSync( uiPredixPath);
 const containsUILightningLibrary = fs.existsSync(uiLightningPath);
@@ -112,7 +112,7 @@ if (containsUIPredixLibrary) {
       {
         context: path.resolve(paths.appPath, uiLibBuiltBowerPath),
         from: '**/*',
-        to: 'bower_components',
+        to: 'polymer',
       },
     ])
   );
