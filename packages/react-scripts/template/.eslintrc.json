@@ -1,6 +1,9 @@
 {
   "env": {
-    "browser": true
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "jest": true
   },
   "extends": [
     "react-app",
@@ -8,6 +11,7 @@
   ],
   "parser": "babel-eslint",
   "parserOptions": {
+    "ecmaVersion": 6,
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true,
       "jsx": true
@@ -15,19 +19,9 @@
     "sourceType": "module"
   },
   "rules": {
-    "arrow-parens": "off", // Incompatible with prettier
-    "no-unused-vars": ["error", { "ignoreRestSiblings": true }],
-    "no-debugger": "warn",
-    "no-console": "warn",
-    "no-trailing-spaces": ["error", { "ignoreComments": true }],
-    "no-multiple-empty-lines": ["error", { "max": 1 }],
-    "lines-between-class-members": ["error", "always"],
-    "import/no-named-as-default": "off",
-    "import/prefer-default-export": "off",
-    "import/first": "off",
-    "react/jsx-filename-extension": "off",
-    "react/prefer-stateless-function": "off",
-    "react/require-default-props": "off",
+    "arrow-parens": "off",
+    "class-methods-use-this": "off",
+    "generator-star-spacing": "off",
     "import/no-extraneous-dependencies": [
       "error",
       {
@@ -37,6 +31,71 @@
           "src/test/*.js"
         ]
       }
+    ],
+    "import/no-named-as-default": "off",
+    "import/no-unresolved": "warn",
+    "import/prefer-default-export": "off",
+    "import/extensions": [
+      "warn",
+      {
+        "js": "never"
+      }
+    ],
+    "lines-between-class-members": [
+      "error",
+      "always"
+    ],
+    "max-len": [
+      "error",
+      100
+    ],
+    "no-debugger": "warn",
+    "no-console": "warn",
+    "no-mixed-operators": "off",
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 1
+      }
+    ],
+    "no-param-reassign": [
+      "error",
+      {
+        "props": false
+      }
+    ],
+    "no-return-assign": "off",
+    "no-trailing-spaces": [
+      "error",
+      {
+        "ignoreComments": true
+      }
+    ],
+    "no-unused-vars": [
+      "error",
+      {
+        "ignoreRestSiblings": true
+      }
+    ],
+    "object-curly-newline": "off",
+    "react/forbid-prop-types": "off",
+    "react/jsx-filename-extension": [
+      "warn",
+      {
+        "extensions": [
+          ".js"
+        ]
+      }
+    ],
+    "react/prefer-stateless-function": [
+      "error",
+      {
+        "ignorePureComponents": true
+      }
+    ],
+    "react/require-default-props": "warn",
+    "sort-keys": [
+      "error"
     ]
   },
   "settings": {
