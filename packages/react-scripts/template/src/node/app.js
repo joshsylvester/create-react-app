@@ -18,8 +18,8 @@ const vars = {
   callbackUrl: getCallbackUrl(serverPort),
   consumerKey: '<enter the consumer key from connected app>',
   consumerSecret: '<enter the consumer secret from connected app>',
-  staticUrl: `${__dirname}/../../build`,
   serverPort,
+  staticUrl: `${__dirname}/../../build`,
 };
 
 function setServerPort(port) {
@@ -30,8 +30,8 @@ function setServerPort(port) {
 
 function appRoot(request, response) {
   const uri = oauth2.getAuthorizationUrl({
-    redirect_uri: vars.callbackUrl,
     client_id: vars.consumerKey,
+    redirect_uri: vars.callbackUrl,
     scope: 'api',
   });
   return response.redirect(uri);
@@ -49,10 +49,10 @@ function appGet(req, res) {
 
   return globalRequest(
     {
-      url: uri,
       headers: {
         Authorization: authorization,
       },
+      url: uri,
     },
     handleResponse,
   );
@@ -68,10 +68,10 @@ function appOauth(req, resp) {
   };
   oauth2.authenticate(
     {
-      redirect_uri: vars.callbackUrl,
       client_id: vars.consumerKey,
       client_secret: vars.consumerSecret,
       code: authorizationCode,
+      redirect_uri: vars.callbackUrl,
     },
     callbackFn,
   );
@@ -100,12 +100,12 @@ const app = express();
 
 // setup the export for the file
 const actions = {
-  appRoot,
   appGet,
   appOauth,
+  appRoot,
   getCallbackUrl,
-  setServerPort,
   setOriginHeaders,
+  setServerPort,
 };
 
 // configure the express server.
@@ -116,4 +116,4 @@ app.get('/get', actions.appGet);
 app.get('/oauth/callback', actions.appOauth);
 
 // export everything as an object
-module.exports = { app, actions, vars };
+module.exports = { actions, app, vars };

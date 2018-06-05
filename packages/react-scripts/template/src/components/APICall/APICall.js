@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
@@ -9,38 +9,33 @@ const DEFAULT_URL = 'http://date.jsontest.com/';
 
 const propTypes = {
   data: PropTypes.shape({}),
-  hasLoaded: PropTypes.bool,
   hasErrored: PropTypes.bool,
+  hasLoaded: PropTypes.bool,
 };
 
 const defaultProps = {
   data: null,
-  hasLoaded: false,
   hasErrored: false,
+  hasLoaded: false,
   url: DEFAULT_URL,
 };
 
-class APICall extends Component {
-  render() {
-    const { data, hasLoaded, hasErrored } = this.props;
-    return (
-      <div className="APICall">
-        {/* Case if waiting for response */}
-        {!hasLoaded && !data && <div className="APICall--loading">Loading..</div>}
+const APICall = ({ data, hasErrored, hasLoaded }) => (
+  <div className="APICall">
+    {/* Case if waiting for response */}
+    {!hasLoaded && !data && <div className="APICall--loading">Loading..</div>}
 
-        {/* Case if successful response */}
-        {hasLoaded && data && (
-          <div className="APICall__data">
-            {JSON.stringify(data)}
-          </div>
-        )}
-
-        {/* Case if error response */}
-        {hasErrored && <div className="APICall--error">Error on fetch!</div>}
+    {/* Case if successful response */}
+    {hasLoaded && data && (
+      <div className="APICall__data">
+        {JSON.stringify(data)}
       </div>
-    );
-  }
-}
+    )}
+
+    {/* Case if error response */}
+    {hasErrored && <div className="APICall--error">Error on fetch!</div>}
+  </div>
+);
 
 APICall.defaultProps = defaultProps;
 APICall.propTypes = propTypes;

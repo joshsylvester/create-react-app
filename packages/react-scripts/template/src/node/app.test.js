@@ -1,6 +1,6 @@
 
-import { app, actions, vars } from './app';
 import request from 'supertest';
+import { app, actions, vars } from './app';
 
 describe('node oauth server', () => {
   it('should redirect the root method by default', (done) => {

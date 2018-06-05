@@ -6,8 +6,8 @@ const loadingType = action => action.type.replace(/\/.*/, '/loading');
 function setActionLoading(dispatch, action) {
   loadingByType[action.type] = true;
   dispatch({
-    type: loadingType(action),
     payload: true,
+    type: loadingType(action),
   });
 }
 
@@ -15,8 +15,8 @@ function unsetActionLoading(dispatch, action) {
   delete loadingByType[action.type];
   setTimeout(() => {
     dispatch({
-      type: loadingType(action),
       payload: false,
+      type: loadingType(action),
     });
   }, 1);
 }
@@ -34,7 +34,7 @@ export function actionLoadingMiddleware({ dispatch }) {
         })
         .catch((err) => {
           unsetActionLoading(dispatch, action);
-          dispatch({ ...action, payload: undefined, error: err });
+          dispatch({ ...action, error: err, payload: undefined });
           if (typeof __DEV__ !== 'undefined') {
             console.error(err); // eslint-disable-line no-console
           }
