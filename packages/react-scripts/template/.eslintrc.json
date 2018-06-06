@@ -20,8 +20,7 @@
   },
   "rules": {
     "arrow-parens": "off",
-    "class-methods-use-this": "off",
-    "generator-star-spacing": "off",
+    "class-methods-use-this": "off",  // flag for possible removal
     "import/no-extraneous-dependencies": [
       "error",
       {
@@ -32,53 +31,11 @@
         ]
       }
     ],
-    "import/no-named-as-default": "off",
-    "import/no-unresolved": "warn",
-    "import/prefer-default-export": "off",
-    "import/extensions": [
-      "warn",
-      {
-        "js": "never"
-      }
-    ],
     "lines-between-class-members": [
       "error",
       "always"
     ],
-    "max-len": [
-      "error",
-      100
-    ],
-    "no-debugger": "warn",
-    "no-console": "warn",
     "no-mixed-operators": "off",
-    "no-multiple-empty-lines": [
-      "error",
-      {
-        "max": 1
-      }
-    ],
-    "no-param-reassign": [
-      "error",
-      {
-        "props": false
-      }
-    ],
-    "no-return-assign": "off",
-    "no-trailing-spaces": [
-      "error",
-      {
-        "ignoreComments": true
-      }
-    ],
-    "no-unused-vars": [
-      "error",
-      {
-        "ignoreRestSiblings": true
-      }
-    ],
-    "object-curly-newline": "off",
-    "react/forbid-prop-types": "off",
     "react/jsx-filename-extension": [
       "warn",
       {
@@ -87,15 +44,13 @@
         ]
       }
     ],
-    "react/prefer-stateless-function": [
-      "error",
-      {
-        "ignorePureComponents": true
-      }
-    ],
-    "react/require-default-props": "warn",
     "sort-keys": [
-      "error"
+      "error",
+      "asc",
+      {
+        "caseSensitive": false,
+        "natural": true
+      }
     ]
   },
   "settings": {
