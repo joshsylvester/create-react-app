@@ -1,6 +1,6 @@
+import { compose, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import promiseMiddleware from 'redux-promise';
-import { compose, applyMiddleware } from 'redux';
 import { actionLoadingMiddleware } from './loading';
 
 let composeEnhancers = compose;

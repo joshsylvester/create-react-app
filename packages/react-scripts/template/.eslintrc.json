@@ -36,22 +36,15 @@
       "always"
     ],
     "no-mixed-operators": "off",
-    "react/jsx-filename-extension": [
-      "warn",
+    "no-param-reassign": [
+      "error",
       {
-        "extensions": [
-          ".js"
-        ]
+        "props": false
       }
     ],
-    "sort-keys": [
-      "error",
-      "asc",
-      {
-        "caseSensitive": false,
-        "natural": true
-      }
-    ]
+    "no-underscore-dangle": "off",
+    "react/jsx-filename-extension": "off",
+    "sort-keys": "error"
   },
   "settings": {
     "import/resolver": {
