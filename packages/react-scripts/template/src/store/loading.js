@@ -34,7 +34,11 @@ export function actionLoadingMiddleware({ dispatch }) {
         })
         .catch((err) => {
           unsetActionLoading(dispatch, action);
-          dispatch({ ...action, error: err, payload: undefined });
+          dispatch({
+            ...action,
+            error: err,
+            payload: undefined,
+          });
           if (typeof __DEV__ !== 'undefined') {
             console.error(err); // eslint-disable-line no-console
           }
