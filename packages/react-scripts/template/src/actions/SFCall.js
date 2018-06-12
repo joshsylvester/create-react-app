@@ -1,22 +1,22 @@
 const localhostServUrl = 'http://localhost:5000';
 export function apiFetchDataSuccess(data) {
   return {
-    type: 'API_FETCH_DATA_SUCCESS',
     data,
+    type: 'API_FETCH_DATA_SUCCESS',
   };
 }
 
 export function apiDataIsLoading(bool) {
   return {
-    type: 'API_DATA_IS_LOADING',
     hasLoaded: bool,
+    type: 'API_DATA_IS_LOADING',
   };
 }
 
 export function apiDataHasError(bool) {
   return {
-    type: 'API_DATA_HAS_ERROR',
     hasErrored: bool,
+    type: 'API_DATA_HAS_ERROR',
   };
 }
 

@@ -1,3 +1,3 @@
-export function helloUtil(name) {
+export default function helloUtil(name) {
   return `Hello, ${name}`;
 }

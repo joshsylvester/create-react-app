@@ -5,8 +5,8 @@ export const HELLO_WORLD = 'hello/world';
 const actions = {
   greet(name) {
     return {
-      type: HELLO_WORLD,
       payload: helloService(name),
+      type: HELLO_WORLD,
     };
   },
 };

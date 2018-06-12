@@ -26,8 +26,8 @@ describe('AppContainer', () => {
     const sayHello = jest.fn();
     const wrapper = shallow(<AppContainer sayHello={sayHello} />);
     expect(wrapper.props()).toEqual(expect.objectContaining({
-      sayHello: expect.any(Function),
       onSubmitHello: expect.any(Function),
+      sayHello: expect.any(Function),
     }));
   });
 

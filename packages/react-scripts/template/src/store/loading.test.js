@@ -1,5 +1,5 @@
-import { actionLoadingMiddleware, actionLoadingReducer } from './loading';
 import mockStore from 'test/mock-store';
+import { actionLoadingMiddleware, actionLoadingReducer } from './loading';
 
 describe('store/actionLoadingMiddleware', () => {
   let store;
@@ -11,8 +11,8 @@ describe('store/actionLoadingMiddleware', () => {
   it('does nothing if payload is not a promise', () => {
     const next = jest.fn();
     const action = {
-      type: 'test/dummy',
       payload: 'value',
+      type: 'test/dummy',
     };
 
     actionLoadingMiddleware(store)(next)(action);
@@ -23,16 +23,16 @@ describe('store/actionLoadingMiddleware', () => {
   it('dispatches loading action if payload is a promise', () => {
     const next = jest.fn();
     const action = {
-      type: 'test/asyncDummy',
       payload: Promise.resolve('foo'),
+      type: 'test/asyncDummy',
     };
 
     actionLoadingMiddleware(store)(next)(action);
 
     expect(store.getActions()).toEqual([
       {
-        type: 'test/loading',
         payload: true,
+        type: 'test/loading',
       },
     ]);
   });
@@ -41,8 +41,8 @@ describe('store/actionLoadingMiddleware', () => {
     const promise = Promise.resolve('foo');
     const next = jest.fn();
     const action = {
-      type: 'test/asyncDummy',
       payload: promise,
+      type: 'test/asyncDummy',
     };
 
     actionLoadingMiddleware(store)(next)(action);
@@ -51,12 +51,12 @@ describe('store/actionLoadingMiddleware', () => {
 
     expect(store.getActions()).toEqual([
       {
-        type: 'test/loading',
         payload: true,
+        type: 'test/loading',
       },
       {
-        type: 'test/asyncDummy',
         payload: 'foo',
+        type: 'test/asyncDummy',
       },
     ]);
   });
@@ -65,8 +65,8 @@ describe('store/actionLoadingMiddleware', () => {
     const promise = Promise.resolve('foo');
     const next = jest.fn();
     const action = {
-      type: 'test/asyncDummy',
       payload: promise,
+      type: 'test/asyncDummy',
     };
 
     actionLoadingMiddleware(store)(next)(action);
@@ -77,16 +77,16 @@ describe('store/actionLoadingMiddleware', () => {
 
     expect(store.getActions()).toEqual([
       {
-        type: 'test/loading',
         payload: true,
-      },
-      {
-        type: 'test/asyncDummy',
-        payload: 'foo',
-      },
-      {
         type: 'test/loading',
+      },
+      {
+        payload: 'foo',
+        type: 'test/asyncDummy',
+      },
+      {
         payload: false,
+        type: 'test/loading',
       },
     ]);
   });
@@ -96,8 +96,8 @@ describe('store/actionLoadingMiddleware', () => {
     const promise = Promise.reject(err);
     const next = jest.fn();
     const action = {
-      type: 'test/asyncDummy',
       payload: promise,
+      type: 'test/asyncDummy',
     };
 
     actionLoadingMiddleware(store)(next)(action);
@@ -108,17 +108,17 @@ describe('store/actionLoadingMiddleware', () => {
 
     expect(store.getActions()).toEqual([
       {
-        type: 'test/loading',
         payload: true,
-      },
-      {
-        type: 'test/asyncDummy',
-        payload: undefined,
-        error: err,
-      },
-      {
         type: 'test/loading',
+      },
+      {
+        error: err,
+        payload: undefined,
+        type: 'test/asyncDummy',
+      },
+      {
         payload: false,
+        type: 'test/loading',
       },
     ]);
   });
@@ -129,8 +129,8 @@ describe('store/actionLoadingReducer', () => {
 
   it('returns state without loading action', () => {
     const action = {
-      type: 'test/dummy',
       payload: 'foo',
+      type: 'test/dummy',
     };
     const result = actionLoadingReducer(state, action);
     expect(result).toEqual(state);
@@ -138,8 +138,8 @@ describe('store/actionLoadingReducer', () => {
 
   it('returns true with loading action and true payload', () => {
     const action = {
-      type: 'test/loading',
       payload: true,
+      type: 'test/loading',
     };
     const result = actionLoadingReducer(state, action);
     expect(result).toEqual(true);
@@ -147,8 +147,8 @@ describe('store/actionLoadingReducer', () => {
 
   it('returns false with loading action and false payload', () => {
     const action = {
-      type: 'test/loading',
       payload: false,
+      type: 'test/loading',
     };
     const result = actionLoadingReducer(state, action);
     expect(result).toEqual(false);
