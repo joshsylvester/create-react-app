@@ -20,7 +20,6 @@
   },
   "rules": {
     "arrow-parens": "off",
-    "class-methods-use-this": "off",  // flag for possible removal
     "import/no-extraneous-dependencies": [
       "error",
       {
@@ -39,7 +38,7 @@
     "no-param-reassign": [
       "error",
       {
-        "props": false
+        "props": true
       }
     ],
     "no-underscore-dangle": "off",
