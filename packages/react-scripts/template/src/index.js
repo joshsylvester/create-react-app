@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { makeStore } from 'store';
+import makeStore from 'store';
 import AppContainer from 'containers/AppContainer';
 import './theme/index.scss';
 
