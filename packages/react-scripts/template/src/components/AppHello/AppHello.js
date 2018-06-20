@@ -9,24 +9,27 @@ const propTypes = {
 };
 
 const defaultProps = {
-  greeting: 'Welcome to ServiceMax!',
+  greeting: null,
 };
 
-const AppHello = props => (
-  <div className="AppHello">
-    <div className="AppHello__header">
-      <div className="AppHello__logo" alt="GE logo" />
-      <h2>{props.greeting}</h2>
+const AppHello = props => {
+  const greeting = props.greeting || 'Welcome to ServiceMax!';
+  return (
+    <div className="AppHello">
+      <div className="AppHello__header">
+        <div className="AppHello__logo" alt="GE logo" />
+        <h2>{greeting}</h2>
+      </div>
+      <p className="AppHello__intro">
+        To get started, edit <code>src/components/app/AppHello.js</code> and save
+        to reload.
+      </p>
+      <div className="AppHello__hello">
+        <Hello onSubmit={props.onSubmitHello} />
+      </div>
     </div>
-    <p className="AppHello__intro">
-      To get started, edit <code>src/components/app/AppHello.js</code> and save
-      to reload.
-    </p>
-    <div className="AppHello__hello">
-      <Hello onSubmit={props.onSubmitHello} />
-    </div>
-  </div>
-);
+  );
+};
 
 AppHello.defaultProps = defaultProps;
 AppHello.propTypes = propTypes;
