@@ -52,7 +52,7 @@ const containsUIComponents = (containsUIPredixLibrary || containsUILightningLibr
 
 
 
-let resolveModules = ['node_modules', appNodeModules];
+let resolveModules = ['node_modules', 'src', appNodeModules];
 let sassIncludePaths = ['node_modules', 'src'];
 
 // Assert this just to be safe.
