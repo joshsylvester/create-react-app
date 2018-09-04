@@ -50,7 +50,7 @@ const containsUIPredixLibrary = fs.existsSync( uiPredixPath);
 const containsUILightningLibrary = fs.existsSync(uiLightningPath);
 const containsUIComponents = (containsUIPredixLibrary || containsUILightningLibrary);
 
-let resolveModules = ['node_modules', appNodeModules];
+let resolveModules = ['node_modules', 'src', appNodeModules];
 let sassIncludePaths = ['node_modules', 'src'];
 
 // Assert this just to be safe.
@@ -75,7 +75,6 @@ const extractTextPluginOptions = shouldUseRelativeAssetPaths
   ? // Making sure that the publicPath goes back to to build folder.
     { publicPath: Array(cssFilename.split('/').length).join('../') }
   : {};
-
 
 const plugins = [
   // Makes some environment variables available in index.html.
