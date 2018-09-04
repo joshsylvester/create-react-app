@@ -26,7 +26,7 @@ const libs = require('./libs');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
-const publicPath = paths.servedPath;
+let publicPath = paths.servedPath;
 // Some apps do not use client-side routing with pushState.
 // For these, "homepage" can be set to "." to enable relative asset paths.
 const shouldUseRelativeAssetPaths = publicPath === './';
@@ -49,8 +49,6 @@ const uiLibBuiltBowerPath = path.resolve(uiPredixPath, 'build/polymer');
 const containsUIPredixLibrary = fs.existsSync( uiPredixPath);
 const containsUILightningLibrary = fs.existsSync(uiLightningPath);
 const containsUIComponents = (containsUIPredixLibrary || containsUILightningLibrary);
-
-
 
 let resolveModules = ['node_modules', appNodeModules];
 let sassIncludePaths = ['node_modules', 'src'];
@@ -181,6 +179,8 @@ const plugins = [
 ];
 
 if (containsUILightningLibrary) {
+  // reset the publicPath to root, for images within salesforce resources to properly map
+  publicPath = '/';
   sassIncludePaths.push(
     path.resolve(uiLightningPath, 'node_modules'),
     uiLightningPath
