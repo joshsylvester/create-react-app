@@ -27,25 +27,30 @@ const libs = require('./libs');
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
 let publicPath = paths.servedPath;
+
 // Some apps do not use client-side routing with pushState.
 // For these, "homepage" can be set to "." to enable relative asset paths.
 const shouldUseRelativeAssetPaths = publicPath === './';
+
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
+
 // `publicUrl` is just like `publicPath`, but we will provide it to our app
 // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
 // Omit trailing slash as %PUBLIC_URL%/xyz looks better than %PUBLIC_URL%xyz.
 const publicUrl = publicPath.slice(0, -1);
+
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
 
+// Get possible module paths
 const appNodeModules = paths.appNodeModules;
-
 const uiLightningPath = path.resolve(appNodeModules, '@svmx/ui-components-lightning');
 const uiPredixPath = path.resolve(appNodeModules, '@svmx/ui-components-predix');
 const uiLibBowerPath = path.resolve(uiPredixPath, 'bower_components');
 const uiLibBuiltBowerPath = path.resolve(uiPredixPath, 'build/polymer');
 
+// Boolean flags detecting existance of ancillary libraries
 const containsUIPredixLibrary = fs.existsSync( uiPredixPath);
 const containsUILightningLibrary = fs.existsSync(uiLightningPath);
 const containsUIComponents = (containsUIPredixLibrary || containsUILightningLibrary);
