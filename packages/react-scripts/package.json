@@ -22,6 +22,7 @@
   },
   "homepage": "./",
   "dependencies": {
+    "archiver": "3.0.0",
     "autoprefixer": "7.1.6",
     "babel-core": "6.26.0",
     "babel-eslint": "8.1.2",
