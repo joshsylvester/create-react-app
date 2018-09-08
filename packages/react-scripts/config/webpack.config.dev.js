@@ -25,21 +25,24 @@ const libs = require('./libs');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
-const publicPath = '/';
+let publicPath = '/';
+
 // `publicUrl` is just like `publicPath`, but we will provide it to our app
 // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
 // Omit trailing slash as %PUBLIC_PATH%/xyz looks better than %PUBLIC_PATH%xyz.
 const publicUrl = '';
+
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
 
+// Get possible module paths
 const appNodeModules = paths.appNodeModules;
-
 const uiLightningPath = path.resolve(appNodeModules, '@svmx/ui-components-lightning');
 const uiPredixPath = path.resolve(appNodeModules, '@svmx/ui-components-predix');
 const uiLibBowerPath = path.resolve(uiPredixPath, 'bower_components');
 const uiLibBuiltBowerPath = path.resolve(uiPredixPath, 'build/polymer');
 
+// Boolean flags detecting existance of ancillary libraries
 const containsUIPredixLibrary = fs.existsSync( uiPredixPath);
 const containsUILightningLibrary = fs.existsSync(uiLightningPath);
 const containsUIComponents = (containsUIPredixLibrary || containsUILightningLibrary);
@@ -87,6 +90,8 @@ const plugins = [
 ];
 
 if (containsUILightningLibrary) {
+  // reset the publicPath to root, for images within salesforce resources to properly map
+  publicPath = '';
   sassIncludePaths.push(
     path.resolve(uiLightningPath, 'node_modules'),
     uiLightningPath
