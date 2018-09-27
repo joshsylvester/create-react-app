@@ -2,19 +2,35 @@
 //   REACT_APP_SF_BUILD_FOLDER = ''
 //   REACT_APP_SF_STATIC_RESOURCE = ''
 const spawn = require('react-dev-utils/crossSpawn');
+const fs = require('fs');
+const fsExtra = require('fs-extra');
+const archiver = require('archiver');
+const paths = require('../config/paths');
 
 process.env.NODE_ENV = 'production';
 require('../config/env');
 
-const buildFolder = process.env.REACT_APP_SF_BUILD_FOLDER || 'CreateReactApp';
-const staticResource = process.env.REACT_APP_SF_STATIC_RESOURCE || 'create_react_app';
-const newPublicUrl = `{!URLFOR($Resource.${staticResource}, '${buildFolder}')}/`;
-
+let newPublicUrl;
 const env = Object.create(process.env);
-env.PUBLIC_URL = newPublicUrl;
+const buildFolder = process.env.REACT_APP_SF_BUILD_FOLDER;
+const staticResource = process.env.REACT_APP_SF_STATIC_RESOURCE;
+if (buildFolder && staticResource) {
+  newPublicUrl = `{!URLFOR($Resource.${staticResource}, '${buildFolder}')}/`;
+  env.PUBLIC_URL = newPublicUrl;
+}
 
+// setup zip file
+const zipFileName = buildFolder + '.zip';
+const zipFilePath = paths.appPath + '/' + zipFileName;
+
+// remove the previous build
+fsExtra.remove(paths.appBuild);
+fsExtra.remove(zipFilePath);
+console.log('- previous build cleared');
+
+// run the normal build with the custom env
+console.log('- build started');
 const result = spawn.sync('node', [`${__dirname}/build.js`], { env });
-
 if (result.signal) {
   if (result.signal === 'SIGKILL') {
     console.log(
@@ -31,6 +47,28 @@ if (result.signal) {
   }
   process.exit(1);
 } else {
-  console.log('completed saleforce build');
+  console.log('- build completed: /build');
+
+  // create the zip file, pause before starting
+  setTimeout(function() {
+    console.warn('- zip started');
+    const output = fs.createWriteStream(zipFilePath);
+    const archive = archiver('zip', {});
+
+    archive.on('error', function(err){
+      if (err.code === 'ENOENT') {
+        console.log('!! no file', err);
+      } else {
+        throw err;
+      }
+    });
+
+    archive.on('finish', function(err){
+      console.log('- zip completed:', zipFileName);
+    });
+
+    archive.pipe(output);
+    archive.directory('./build', buildFolder);
+    archive.finalize();
+  }, 1000);
 }
-process.exit(result.status);
