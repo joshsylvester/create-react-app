@@ -1,0 +1,27 @@
+@import 'theme/variables';
+
+.Header {
+  background-color: $color-medium-gray;
+  margin: 0;
+
+  ul {
+    margin: 0 10px;
+    padding: 0;
+  }
+
+  ul > li {
+    display: inline-block;
+    padding: 5px 10px;
+  }
+
+  .Header__link,
+  .Header__link:hover {
+    color: $color-light-gray;
+    text-decoration: none;
+  }
+
+  .Header__link:active,
+  .Header__link--selected {
+    color: $color-white;
+  }
+}
