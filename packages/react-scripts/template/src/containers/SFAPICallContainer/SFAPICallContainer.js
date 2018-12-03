@@ -1,13 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import PageContainer from 'containers/PageContainer';
 import APICall from 'components/APICall';
 import { apiSFFetchData } from 'actions/SFCall';
 
-export const mapStateToProps = (state) => ({
-  data: state.SFCall.data,
-  hasLoaded: state.SFCall.hasLoaded,
-});
+export const mapStateToProps = (state) => {
+  return state.SFCall
+    ? ({
+      data: state.SFCall.data,
+      error: state.SFCall.error,
+      hasError: state.SFCall.hasError,
+      hasLoaded: state.SFCall.hasLoaded,
+    })
+    : ({
+      data: undefined,
+      error: undefined,
+      hasError: undefined,
+      hasLoaded: undefined,
+    });
+};
 
 export const mapDispatchToProps = (dispatch) => ({
   fetchData: () => dispatch(apiSFFetchData()),
@@ -27,7 +39,11 @@ export class SFAPICallContainer extends React.PureComponent {
   }
 
   render() {
-    return <APICall {...this.props} />;
+    return (
+      <PageContainer>
+        <APICall {...this.props} />
+      </PageContainer>
+    );
   }
 }
 

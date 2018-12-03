@@ -1,21 +1,34 @@
 import { compose, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
+import reduxLogger from 'redux-logger';
 import promiseMiddleware from 'redux-promise';
 import { actionLoadingMiddleware } from './loading';
 
 let composeEnhancers = compose;
 
-if (typeof __DEV__ !== 'undefined' && typeof __TEST__ === 'undefined') {
-  /* eslint-disable no-underscore-dangle */
-  if (global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
-    composeEnhancers = global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
-  }
+/* eslint-disable no-underscore-dangle */
+if (typeof __DEV__ !== 'undefined' && typeof __TEST__ === 'undefined'
+  && global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
+  composeEnhancers = global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
 }
+/* eslint-enable no-underscore-dangle */
 
-export const middlewares = [actionLoadingMiddleware, thunkMiddleware, promiseMiddleware];
+const middlewares = [
+  actionLoadingMiddleware,
+  promiseMiddleware,
+  reduxLogger,
+  thunkMiddleware,
+];
 
-export default function makeEnhancers() {
+function makeEnhancers() {
+  /* eslint-disable function-paren-newline */
   return composeEnhancers(
-    applyMiddleware(actionLoadingMiddleware, thunkMiddleware, promiseMiddleware),
+    applyMiddleware(...middlewares),
   );
+  /* eslint-enable function-paren-newline */
 }
+
+export {
+  makeEnhancers,
+  middlewares,
+};

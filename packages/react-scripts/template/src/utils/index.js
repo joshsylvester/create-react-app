@@ -1,3 +1,3 @@
-export default function helloUtil(name) {
-  return `Hello, ${name}`;
-}
+import helloUtil from './helloUtil';
+
+export default { helloUtil };

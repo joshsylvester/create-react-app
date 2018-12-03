@@ -1,4 +1,4 @@
-import { helloUtil } from './index';
+import helloUtil from './helloUtil';
 
 describe('utils/helloUtil', () => {
   it('says hello', () => {

@@ -1,6 +1,6 @@
 import { isEmpty } from 'lodash';
 
-const loadingByType = {};
+let loadingByType = {};
 const loadingType = action => action.type.replace(/\/.*/, '/loading');
 
 function setActionLoading(dispatch, action) {
@@ -21,6 +21,11 @@ function unsetActionLoading(dispatch, action) {
   }, 1);
 }
 
+// Allow the loadingByType object for testing.
+export function setLoadingByType(loadingArray) {
+  loadingByType = loadingArray;
+}
+
 export function actionLoadingMiddleware({ dispatch }) {
   return next => (action) => {
     // If promise
@@ -39,9 +44,6 @@ export function actionLoadingMiddleware({ dispatch }) {
             error: err,
             payload: undefined,
           });
-          if (typeof __DEV__ !== 'undefined') {
-            console.error(err); // eslint-disable-line no-console
-          }
         });
     }
 
