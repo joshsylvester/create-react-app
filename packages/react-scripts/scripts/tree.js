@@ -60,7 +60,7 @@ export default ComponentsList;
 
   // Filter 'App' out
   array = array.filter(val => {
-    return val !== 'AppContainer';
+    return val !== 'PageContainer';
   });
 
   var containersObjectArray = array.reduce((total, curr) => {
