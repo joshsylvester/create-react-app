@@ -184,7 +184,7 @@ const plugins = [
 
 if (containsUILightningLibrary) {
   // reset the publicPath to root, for images within salesforce resources to properly map
-  publicPath = '';
+  publicPath = process.env.PUBLIC_PATH || '';
   sassIncludePaths.push(
     path.resolve(uiLightningPath, 'node_modules'),
     uiLightningPath
