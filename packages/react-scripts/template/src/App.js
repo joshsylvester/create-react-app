@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import makeStore from 'store';
 import Routes from './Routes';
 
@@ -18,9 +18,9 @@ const store = makeStore();
  */
 const App = () => (
   <Provider store={store}>
-    <BrowserRouter>
+    <HashRouter>
       <Routes />
-    </BrowserRouter>
+    </HashRouter>
   </Provider>
 );
 
