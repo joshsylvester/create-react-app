@@ -38,7 +38,6 @@ const env = getClientEnvironment(publicUrl);
 // Get possible module paths
 const appNodeModules = paths.appNodeModules;
 const uiLightningPath = path.resolve(appNodeModules, '@svmx/ui-components-lightning');
-const uiLightningNodeModulesPath = path.resolve(uiLightningPath, 'node_modules');
 const uiPredixPath = path.resolve(appNodeModules, '@svmx/ui-components-predix');
 const uiLibBowerPath = path.resolve(uiPredixPath, 'bower_components');
 const uiLibBuiltBowerPath = path.resolve(uiPredixPath, 'build/polymer');
@@ -100,7 +99,7 @@ if (containsUILightningLibrary) {
   plugins.push(
     new CopyWebpackPlugin([
       {
-        context: path.resolve(uiLightningNodeModulesPath, '@salesforce-ux/design-system/assets'),
+        context: path.resolve(appNodeModules, '@salesforce-ux/design-system/assets'),
         from: '**/*',
         to: 'assets',
       },
@@ -270,6 +269,11 @@ module.exports = {
               limit: 10000,
               name: 'static/media/[name].[hash:8].[ext]',
             },
+          },
+          // Add the raw loader for custom ServiceMax SVG assets loaded through React
+          {
+            test: [/\.svg$/],
+            loader: require.resolve('raw-loader'),
           },
           // Process JS with Babel.
           {

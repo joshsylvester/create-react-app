@@ -336,6 +336,11 @@ module.exports = {
               name: 'static/media/[name].[hash:8].[ext]',
             },
           },
+          // Add the raw loader for custom ServiceMax SVG assets loaded through React
+          {
+            test: [/\.svg$/],
+            loader: require.resolve('raw-loader'),
+          },
           // Process JS with Babel.
           {
             test: /\.(js|jsx|mjs)$/,
