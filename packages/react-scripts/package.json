@@ -1,6 +1,6 @@
 {
   "name": "@svmx/react-scripts",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "ServiceMax Configuration and scripts for Create React App.",
   "repository": "ServiceMax-Engineering/create-react-app",
   "license": "MIT",
