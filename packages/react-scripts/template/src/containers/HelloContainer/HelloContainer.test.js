@@ -1,32 +1,51 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import {
+  HelloContainer,
+  mapDispatchToProps,
+  mapStateToProps,
+} from './HelloContainer';
 
-import { makeStore } from 'store';
-import { AppContainer, mapStateToProps, mapDispatchToProps } from './AppContainer';
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
 
-const store = makeStore();
-describe('AppContainer', () => {
+describe('HelloContainer', () => {
+  let store;
+
+  beforeEach(() => {
+    store = mockStore({});
+  });
+
+  afterEach(() => {
+    store = null;
+  });
+
   it('renders without crashing', () => {
     const wrapper = shallow(
       <Provider store={store}>
-        <AppContainer />
+        <HelloContainer />
       </Provider>);
     expect(wrapper).toBeDefined();
   });
 
   it('calls sayHello from onSubmitHello', () => {
     const sayHello = jest.fn();
-    const wrapper = shallow(<AppContainer sayHello={sayHello} />);
+    const wrapper = shallow(<HelloContainer sayHello={sayHello} />);
     wrapper.instance().onSubmitHello({ name: 'foo' });
     expect(sayHello.mock.calls.length).toEqual(1);
   });
 
-  it('maps state and dispatch to props', () => {
+  it('expect the props to be what was passed in.', () => {
     const sayHello = jest.fn();
-    const wrapper = shallow(<AppContainer sayHello={sayHello} />);
+    const wrapper = shallow(
+      <Provider store={store}>
+        <HelloContainer sayHello={sayHello} />
+      </Provider>);
+    expect(wrapper).toBeDefined();
     expect(wrapper.props()).toEqual(expect.objectContaining({
-      onSubmitHello: expect.any(Function),
       sayHello: expect.any(Function),
     }));
   });

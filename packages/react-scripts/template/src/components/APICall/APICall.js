@@ -1,39 +1,50 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-/**
- * Default URL for CRA, Data response structure example from date.jsontest.com/
- * {time: "09:46:01 PM", milliseconds_since_epoch: 1509745561437, date: "11-03-2017"}
- */
-const DEFAULT_URL = 'http://date.jsontest.com/';
+import './APICall.scss';
 
 const propTypes = {
   data: PropTypes.shape({}),
-  hasErrored: PropTypes.bool,
+  error: PropTypes.string,
+  hasError: PropTypes.bool,
   hasLoaded: PropTypes.bool,
+  url: PropTypes.string,
 };
 
 const defaultProps = {
   data: null,
-  hasErrored: false,
+  error: '',
+  hasError: false,
   hasLoaded: false,
-  url: DEFAULT_URL,
+  url: '',
 };
 
-const APICall = ({ data, hasErrored, hasLoaded }) => (
-  <div className="APICall">
+const APICall = ({
+  data,
+  error,
+  hasError,
+  hasLoaded,
+  url,
+}) => (
+  <div className="APICall content">
+    {url && <h2>url: {url}</h2>}
+
+    {/* Case if error response */}
+    {hasError && (
+      <div className="APICall--error">
+        <b>Error on fetch!</b> {error}
+      </div>
+    )}
+
     {/* Case if waiting for response */}
     {!hasLoaded && !data && <div className="APICall--loading">Loading..</div>}
 
     {/* Case if successful response */}
-    {hasLoaded && data && (
-      <div className="APICall__data">
-        {JSON.stringify(data)}
-      </div>
-    )}
-
-    {/* Case if error response */}
-    {hasErrored && <div className="APICall--error">Error on fetch!</div>}
+    {hasLoaded &&
+      data && (
+        <div className="APICall__data">
+          <pre>{JSON.stringify(data, null, 2)}</pre>
+        </div>
+      )}
   </div>
 );
 

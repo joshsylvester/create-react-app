@@ -1,13 +1,28 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import {
+  APICallContainer,
+  mapDispatchToProps,
+  mapStateToProps,
+} from './APICallContainer';
 
-import { makeStore } from 'store';
-import { APICallContainer, mapStateToProps, mapDispatchToProps } from './APICallContainer';
-
-const store = makeStore();
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
 
 describe('APICallContainer', () => {
+  let store;
+
+  beforeEach(() => {
+    store = mockStore({});
+  });
+
+  afterEach(() => {
+    store = null;
+  });
+
   it('renders without crashing', () => {
     const wrapper = shallow(
       <Provider store={store}>
@@ -16,20 +31,13 @@ describe('APICallContainer', () => {
     expect(wrapper).toBeDefined();
   });
 
-  it('renders the APICall Component', () => {
-    const fetchMock = jest.fn();
-    const wrapper = mount(
-      <Provider store={store}>
-        <APICallContainer fetchData={fetchMock} />
-      </Provider>);
-    expect(wrapper.find('.APICall').length).toBe(1);
-  });
-
   it('maps state and dispatch to props', () => {
-    const fetchData = jest.fn();
-    const wrapper = shallow(<APICallContainer fetchData={fetchData} />);
+    const fetchDataMock = jest.fn();
+    const wrapper = shallow(<Provider store={store}>
+      <APICallContainer fetchData={fetchDataMock} />
+    </Provider>);
     expect(wrapper.props()).toEqual(expect.objectContaining({
-      fetchData: expect.any(Function),
+      fetchData: fetchDataMock,
     }));
   });
 

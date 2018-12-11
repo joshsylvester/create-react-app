@@ -1,13 +1,28 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import {
+  mapDispatchToProps,
+  mapStateToProps,
+  SFAPICallContainer,
+} from './SFAPICallContainer';
 
-import { makeStore } from 'store';
-import { SFAPICallContainer, mapStateToProps, mapDispatchToProps } from './SFAPICallContainer';
-
-const store = makeStore();
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
 
 describe('SFAPICallContainer', () => {
+  let store;
+
+  beforeEach(() => {
+    store = mockStore({});
+  });
+
+  afterEach(() => {
+    store = null;
+  });
+
   it('renders without crashing', () => {
     const wrapper = shallow(
       <Provider store={store}>
@@ -16,20 +31,13 @@ describe('SFAPICallContainer', () => {
     expect(wrapper).toBeDefined();
   });
 
-  it('renders the APICall Component', () => {
-    const fetchMock = jest.fn();
-    const wrapper = mount(
-      <Provider store={store}>
-        <SFAPICallContainer fetchData={fetchMock} />
-      </Provider>);
-    expect(wrapper.find('.APICall').length).toBe(1);
-  });
-
   it('maps state and dispatch to props', () => {
-    const fetchData = jest.fn();
-    const wrapper = shallow(<SFAPICallContainer fetchData={fetchData} />);
+    const fetchDataMock = jest.fn();
+    const wrapper = shallow(<Provider store={store}>
+      <SFAPICallContainer fetchData={fetchDataMock} />
+    </Provider>);
     expect(wrapper.props()).toEqual(expect.objectContaining({
-      fetchData: expect.any(Function),
+      fetchData: fetchDataMock,
     }));
   });
 

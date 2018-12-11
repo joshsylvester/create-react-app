@@ -184,7 +184,7 @@ const plugins = [
 
 if (containsUILightningLibrary) {
   // reset the publicPath to root, for images within salesforce resources to properly map
-  publicPath = '';
+  publicPath = process.env.PUBLIC_PATH || '';
   sassIncludePaths.push(
     path.resolve(uiLightningPath, 'node_modules'),
     uiLightningPath
@@ -224,6 +224,8 @@ const jsIncludePaths = libs.reduce(
 // It compiles slowly and is focused on producing a fast and minimal bundle.
 // The development configuration is different and lives in a separate file.
 module.exports = {
+  // Webpack 4 requires the mode flag to be set
+  mode: 'production',
   // Don't attempt to continue if there are any errors.
   bail: true,
   // We generate sourcemaps in production. This is slow but gives good results.

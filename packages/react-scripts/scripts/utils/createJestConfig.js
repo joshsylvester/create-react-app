@@ -35,7 +35,9 @@ module.exports = (resolve, rootDir, isEjecting) => {
     collectCoverageFrom: [
       'src/**/*.{js,jsx,mjs}',
       "!src/**/index.js",
-      "!src/test/*"
+      "!src/registerServiceWorker.js",
+      "!src/node/*.js",
+      "!src/test/*.js"
     ],
     setupFiles: [resolve('config/polyfills.js')],
     setupTestFrameworkScriptFile: setupTestsFile,

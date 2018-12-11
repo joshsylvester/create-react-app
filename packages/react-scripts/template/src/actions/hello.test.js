@@ -22,4 +22,24 @@ describe('reducer', () => {
       greeting: 'foo',
     });
   });
+
+  it('should return the state with an invalid action', () => {
+    const state = { foo: true };
+    const result = reducer(state, {
+      payload: 'foo',
+      type: 'INVALID_ACTION',
+    });
+    expect(result).toEqual(state);
+  });
+
+  it('should use the default if none is given', () => {
+    const expectedState = {
+      greeting: null,
+    };
+    const result = reducer(undefined, {
+      payload: 'foo',
+      type: 'INVALID_ACTION',
+    });
+    expect(result).toEqual(expectedState);
+  });
 });

@@ -12,10 +12,10 @@ describe('APICall', () => {
 
   it('should mount with default props', () => {
     const wrapper = mount(<APICall />);
-    expect(wrapper.prop('url')).toEqual('http://date.jsontest.com/');
     expect(wrapper.prop('data')).toBe(null);
     expect(wrapper.prop('hasLoaded')).toBe(false);
-    expect(wrapper.prop('hasErrored')).toBe(false);
+    expect(wrapper.prop('hasError')).toBe(false);
+    expect(wrapper.prop('url')).toEqual('');
     expect(wrapper.find('.APICall').length).toBe(1);
   });
 
@@ -30,8 +30,8 @@ describe('APICall', () => {
   });
 
   it('should set render fail state accordingly to props passed in', () => {
-    const wrapper = mount(<APICall hasLoaded hasErrored />);
-    expect(wrapper.prop('hasErrored')).toBe(true);
+    const wrapper = mount(<APICall hasLoaded hasError />);
+    expect(wrapper.prop('hasError')).toBe(true);
     expect(wrapper.find('.APICall--error').length).toBe(1);
   });
 });

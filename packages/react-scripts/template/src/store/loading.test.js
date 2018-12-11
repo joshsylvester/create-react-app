@@ -1,5 +1,9 @@
 import mockStore from 'test/mock-store';
-import { actionLoadingMiddleware, actionLoadingReducer } from './loading';
+import {
+  actionLoadingMiddleware,
+  actionLoadingReducer,
+  setLoadingByType,
+} from './loading';
 
 describe('store/actionLoadingMiddleware', () => {
   let store;
@@ -152,5 +156,24 @@ describe('store/actionLoadingReducer', () => {
     };
     const result = actionLoadingReducer(state, action);
     expect(result).toEqual(false);
+  });
+
+  it('returns false with loading action missing loadingByType', () => {
+    const action = {
+      type: 'test/loading',
+    };
+    const result = actionLoadingReducer(state, action);
+    expect(result).toEqual(false);
+  });
+
+  it('returns the state when the loadingTypes are set.', () => {
+    const action = {
+      type: 'test/loading',
+    };
+    setLoadingByType({
+      'test/loading': action,
+    });
+    const result = actionLoadingReducer(state, action);
+    expect(result).toEqual(state);
   });
 });
