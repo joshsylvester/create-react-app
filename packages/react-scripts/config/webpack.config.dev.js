@@ -273,21 +273,24 @@ module.exports = {
         // match the requirements. When no loader matches it will fall
         // back to the "file" loader at the end of the loader list.
         oneOf: [
+          // Add the raw loader for custom ServiceMax SVG assets loaded through React
+          {
+            test: [/\.svg$/],
+            issuer: {
+              test: /\.jsx?$/,
+            },
+            loader: require.resolve('raw-loader'),
+          },
           // "url" loader works like "file" loader except that it embeds assets
           // smaller than specified limit in bytes as data URLs to avoid requests.
           // A missing `test` is equivalent to a match.
           {
-            test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+            test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.svg$/],
             loader: require.resolve('url-loader'),
             options: {
               limit: 10000,
               name: 'static/media/[name].[hash:8].[ext]',
             },
-          },
-          // Add the raw loader for custom ServiceMax SVG assets loaded through React
-          {
-            test: [/\.svg$/],
-            loader: require.resolve('raw-loader'),
           },
           // Process JS with Babel.
           {
