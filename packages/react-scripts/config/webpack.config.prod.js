@@ -48,6 +48,9 @@ const shouldUseRelativeAssetPaths = publicPath === './';
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 
+// Source mapping url to hold private source maps.
+const sourceMappingURL = process.env.SOURCEMAP_URL || '';
+
 // `publicUrl` is just like `publicPath`, but we will provide it to our app
 // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
 // Omit trailing slash as %PUBLIC_URL%/xyz looks better than %PUBLIC_URL%xyz.
@@ -216,6 +219,16 @@ if (containsUIPredixLibrary) {
   );
 }
 
+if (sourceMappingURL) {
+  plugins.push(
+    new webpack.SourceMapDevToolPlugin({
+      // this is the url of our private sourcemap server
+      publicPath: sourceMappingURL,
+      filename: '[file].map',
+    }),
+  );
+}
+
 const jsIncludePaths = libs.reduce(
   (result, lib) => {
     const jsIncludePathsForLib = lib.jsIncludePaths || [];
@@ -241,7 +254,7 @@ module.exports = {
   bail: true,
   // We generate sourcemaps in production. This is slow but gives good results.
   // You can exclude the *.map files from the build during deployment.
-  devtool: shouldUseSourceMap ? 'source-map' : false,
+  devtool: (shouldUseSourceMap && !sourceMappingURL) ? 'source-map' : false,
   // In production, we only want to load the polyfills and the app code.
   entry: [require.resolve('./polyfills'), paths.appIndexJs],
   output: {
