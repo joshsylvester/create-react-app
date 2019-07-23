@@ -14,13 +14,15 @@ const paths = require('../../config/paths');
 const libs = require('../../config/libs');
 const appNodeModules = paths.appNodeModules;
 
-const transformIgnorePaths = libs.reduce((result, lib)=> {
-  const jsPath = path.resolve(appNodeModules, lib.name)
-  if (fs.existsSync(jsPath)) {
-    result.push(lib.name);
-  }
-  return result;
-}, []).join("|");
+const transformIgnorePaths = libs
+  .reduce((result, lib) => {
+    const jsPath = path.resolve(appNodeModules, lib.name);
+    if (fs.existsSync(jsPath)) {
+      result.push(lib.name);
+    }
+    return result;
+  }, [])
+  .join('|');
 
 module.exports = (resolve, rootDir, isEjecting) => {
   // Use this instead of `paths.testsSetup` to avoid putting
@@ -34,13 +36,13 @@ module.exports = (resolve, rootDir, isEjecting) => {
   const config = {
     collectCoverageFrom: [
       'src/**/*.{js,jsx,mjs}',
-      "!src/**/index.js",
-      "!src/registerServiceWorker.js",
-      "!src/node/*.js",
-      "!src/test/*.js"
+      '!src/**/index.js',
+      '!src/registerServiceWorker.js',
+      '!src/node/*.js',
+      '!src/test/*.js',
     ],
     setupFiles: [resolve('config/polyfills.js')],
-    setupTestFrameworkScriptFile: setupTestsFile,
+    setupFilesAfterEnv: [setupTestsFile],
     testMatch: [
       '<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}',
       '<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}',
