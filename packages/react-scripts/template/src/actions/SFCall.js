@@ -138,7 +138,8 @@ export function apiSFFetchData() {
   return (dispatch, config) => {
     dispatch(apiDataIsLoading(true));
     if (window && window.isRemote) {
-      if(typeof isTargetLightningPage !== 'undefined' && isTargetLightningPage) {
+      const isTargetLightningPage = window && window.isTargetLightningPage;
+      if (typeof isTargetLightningPage !== 'undefined' && isTargetLightningPage !== null) {
         return handleRemoteCallApex(dispatch, config);
       }
       

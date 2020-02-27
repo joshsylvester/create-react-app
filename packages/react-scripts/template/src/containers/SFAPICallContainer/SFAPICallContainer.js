@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PageContainer from 'containers/PageContainer';
 import APICall from 'components/APICall';
 import { apiSFFetchData } from 'actions/SFCall';
+import fetchUserInfoData from 'actions/UserInfoAction';
 
 export const mapStateToProps = (state) => {
   return state.SFCall
@@ -22,7 +23,10 @@ export const mapStateToProps = (state) => {
 };
 
 export const mapDispatchToProps = (dispatch) => ({
-  fetchData: () => dispatch(apiSFFetchData()),
+  handleFetchData: () => dispatch(apiSFFetchData()),
+  // This is just an example of REST API call and
+  // doesn't do anything more than storing API response `userInfoDetails` in state
+  handlefetchUserInfoData: () => dispatch(fetchUserInfoData()),
 });
 
 const propTypes = {
@@ -35,7 +39,9 @@ const defaultProps = {
 
 export class SFAPICallContainer extends React.PureComponent {
   componentDidMount() {
-    this.props.fetchData();
+    const { handleFetchData, handlefetchUserInfoData } = this.props;
+    handleFetchData();
+    handlefetchUserInfoData();
   }
 
   render() {

@@ -3,6 +3,7 @@ import thunkMiddleware from 'redux-thunk';
 import reduxLogger from 'redux-logger';
 import promiseMiddleware from 'redux-promise';
 import { actionLoadingMiddleware } from './loading';
+import httpRequestLoadingMiddleware from './httpRequestLoadingMiddleware';
 
 let composeEnhancers = compose;
 
@@ -17,6 +18,7 @@ const middlewares = [
   actionLoadingMiddleware,
   promiseMiddleware,
   reduxLogger,
+  httpRequestLoadingMiddleware,
   thunkMiddleware,
 ];
 
