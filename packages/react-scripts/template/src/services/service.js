@@ -19,7 +19,7 @@ function makeJsrRequest(
 ) {
   const requestParamsStr = JSON.stringify(requestParams);
   LCC.callApex(
-    `SVMXDEV.SFA_Configuration.${jsrActionMappingKey}`,
+    `SVMXDEV.SFA_Configuration.${jsrActionMappingKey}`, // Note: replace with your App controller
     requestParamsStr,
     (result, event) => {
       processResult(result, event, callback, context);
@@ -91,6 +91,8 @@ export function handleRemoteCallApex(config) {
  * @returns {Promise<any>}
  */
 export function handleRemoteInvokeAction(config) {
+  // must define this global on your visualforce page and
+  // replace SVMX_SFA_JSR with your global var
   const isJsrDefined = (window
     && window.SVMX_SFA_JSR);
   const defaultActionParams = {
@@ -126,6 +128,7 @@ export function handleRemoteInvokeAction(config) {
     };
 
     if (isJsrDefined && jsrActionMappingKey) {
+      // must replace with your global var
       window.SVMX_SFA_JSR.makeJsrRequest(
         jsrActionMappingKey,
         requestParams, // Actual Request Params will go here..

@@ -1,3 +1,7 @@
+// This is placeholder only lightning wrapper component controller to your App.
+// Use this to bridge the communication between lightning page and React App as needed
+// Ref.: https://developer.salesforce.com/docs/component-library/bundle/lightning:container/documentation
+
 ({
   doInit: function(cmp) {
     // Set the attribute value.
