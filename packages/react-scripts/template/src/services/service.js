@@ -19,7 +19,7 @@ function makeJsrRequest(
 ) {
   const requestParamsStr = JSON.stringify(requestParams);
   LCC.callApex(
-    `SVMXDEV.SFA_Configuration.${jsrActionMappingKey}`, // Note: replace with your App controller
+    `<orgNameSpace.ControllerName>.${jsrActionMappingKey}`, // Note: replace with your App controller
     requestParamsStr,
     (result, event) => {
       processResult(result, event, callback, context);

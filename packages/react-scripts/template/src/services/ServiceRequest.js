@@ -17,7 +17,7 @@ const apiStartPointConfig = {
   orgNamespace: SFDC_ORG_NAMESAPCE,
   postRequestProxyPrefix: proxyServerUrl + (env.REACT_APP_SFDC_POST_REQUEST_PROXY_PREFIX || ''),
   urlPrefix: '/services/apexrest/',
-  urlSuffix: '/svmx/rest/SFAServiceIntf', // Note: update this to respective interface
+  urlSuffix: '/svmx/rest/<enter restresource service interface name>', // Note: update this to respective interface
 };
 
 function buildQueryString(params) {
