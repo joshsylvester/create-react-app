@@ -6,7 +6,10 @@ Up to date with [![Generic badge](https://img.shields.io/badge/CRA-v1.1.4-green.
 Install via `create-react-app` using the following command:
 
 ```
-create-react-app --scripts-version=@svmx/react-scripts
+npx create-react-app@3.1.0 --scripts-version=@svmx/react-scripts my-app
+
+Note: Supports CRA version < 3.1.0 at this time.
+
 ```
 
 ## Configurations to run and deploy
