@@ -174,11 +174,11 @@
         In staging & production, the files are bundled, and all of the chunked files
         will need to be loaded individually
       -->
-    <% if (htmlWebpackPlugin.options.isProduction && !htmlWebpackPlugin.options.isTargetLightningPage) { %>
+    <% if (!htmlWebpackPlugin.options.isTargetLightningPage) { %>
     <% for (var i = 0; i < htmlWebpackPlugin.files.js.length; i++) { %>
     <script type="text/javascript" src="%PUBLIC_URL%/<%= htmlWebpackPlugin.files.js[i] %>"></script>
     <% } %>
-    <% } else if (htmlWebpackPlugin.options.isProduction && htmlWebpackPlugin.options.isTargetLightningPage) { %>
+    <% } else if (htmlWebpackPlugin.options.isTargetLightningPage) { %>
     <% for (var i = 0; i < htmlWebpackPlugin.files.js.length; i++) { %>
     <script type="text/javascript" src="./<%= htmlWebpackPlugin.files.js[i] %>"></script>
     <% } %>
